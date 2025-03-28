@@ -48,7 +48,7 @@ namespace CustomGrabColour
             PluginLogger.LogInfo($"Loading plugin {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
 
             CustomGrabColourConfig.Init(Config);
-            Color colourFromConfig = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, new Color(1f, 0.1856f, 0f, CustomGrabColourConfig.DefaultOpacity));
+            Color colourFromConfig = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, CustomGrabColourConfig.DefaultColor);
             colourFromConfig.a = Mathf.Clamp(colourFromConfig.a, 0f, CustomGrabColourConfig.MaxOpacity);
             CustomGrabBeamColour.LocalColour = colourFromConfig;
 

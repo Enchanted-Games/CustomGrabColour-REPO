@@ -22,7 +22,13 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 		throw new NotImplementedException();
 	}
 
-	public static void UpdateBeamColour(Color newColour)
+    public static void ResetLocal()
+	{
+		LocalColour = CustomGrabColourConfig.DefaultColor;
+		UpdateBeamColour();
+	}
+
+    public static void UpdateBeamColour(Color newColour)
     {
         newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
         LocalColour = newColour;

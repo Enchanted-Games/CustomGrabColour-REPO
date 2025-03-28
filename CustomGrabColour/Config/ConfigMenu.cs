@@ -87,7 +87,7 @@ class ConfigMenu
                 0
             );
 
-            var disclaimerLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(430f, 155f));
+            var disclaimerLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(425f, 155f));
             disclaimerLabel.transform.localScale = new Vector2(0.5f, 0.5f);
 
             var closeButton = MenuAPI.CreateREPOButton("Done", () => {
@@ -97,6 +97,16 @@ class ConfigMenu
                 parent,
                 new Vector2(70f, 30f)
             );
+
+            var resetButton = MenuAPI.CreateREPOButton("Reset", () => {
+                changeGrabColourPage.ClosePage(true);
+                CustomGrabBeamColour.ResetLocal();
+                CustomGrabBeamColour.UpdateBeamColour();
+            },
+                parent,
+                new Vector2(290f, 30f)
+            );
+            resetButton.transform.localScale = new Vector2(0.5f, 0.5f);
         });
 
         changeGrabColourPage.OpenPage(false);
@@ -137,7 +147,7 @@ class ConfigMenu
             desc,
             onChange,
             parent,
-            new Vector2(60f, 165.0f + (35 * offset)),
+            new Vector2(80f, 165.0f + (35 * offset)),
             0,
             max,
             2,
