@@ -20,11 +20,23 @@ namespace CustomGrabColour
 
         public ManualLogSource PluginLogger;
 
+        public static void LogMessage(object message)
+        {
+            Instance.PluginLogger.LogMessage("CustomGrabColour: " + message);
+        }
+        public static void LogError(object message)
+        {
+            Instance.PluginLogger.LogError("CustomGrabColour: " + message);
+        }
+
         private void Awake()
         {
             Instance = this;
 
             PluginLogger = Logger;
+
+            CustomGrabColourConfig.Init(Config);
+            CustomGrabBeamColour.LocalColour = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, new Color(1f, 0.1856f, 0f, 1f));
 
             // Apply Harmony patches (if any exist)
             Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);

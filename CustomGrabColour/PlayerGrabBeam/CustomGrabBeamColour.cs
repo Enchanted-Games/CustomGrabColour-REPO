@@ -8,7 +8,7 @@ using UnityEngine;
 // handles local and other players grab beam colours
 public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 {
-	public static Color LocalColour = new Color(1f, 0.1856f, 0f);
+	public static Color LocalColour;
     public Color currentBeamColour;
     public PlayerAvatar player;
 
@@ -29,7 +29,6 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 	}
 	public static void UpdateBeamColour()
 	{
-		Plugin.Instance.PluginLogger.LogInfo(LocalColour);
 		if (!GameManager.Multiplayer())
 		{
 			PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(LocalColour.r, LocalColour.g, LocalColour.b);
@@ -39,16 +38,12 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, LocalColour.r, LocalColour.g, LocalColour.b);
 		}
 
-		ES3Settings es3Settings = new ES3Settings("ModSettingsData.es3", [ES3.Location.File]);
-		ES3.Save<string>("PlayerBodyColorR", LocalColour.r.ToString(), es3Settings);
-		ES3.Save<string>("PlayerBodyColorG", LocalColour.g.ToString(), es3Settings);
-		ES3.Save<string>("PlayerBodyColorB", LocalColour.b.ToString(), es3Settings);
+		CustomGrabColourConfig.SaveColour(LocalColour);
 	}
 
 	[PunRPC]
 	public void SetBeamColourRPC(float r, float g, float b)
     {
-        Plugin.Instance.PluginLogger.LogInfo("colour from RPC: " + r + ", " + g + ", " + b);
         currentBeamColour = new Color(r, g, b);
 
 		// invoke ColorStates method to make sure the beam colour updates properly
@@ -61,7 +56,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 		}
 		catch (Exception e)
 		{
-            Plugin.Instance.PluginLogger.LogError("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e.Message);
+            Plugin.LogError("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e.Message);
         }
 
 		try
@@ -71,7 +66,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         }
         catch (Exception e)
         {
-            Plugin.Instance.PluginLogger.LogError("Error while calling method field 'ColorStates', player beam colour might not update properly.\n" + e.Message);
+            Plugin.LogError("Error while calling method field 'ColorStates', player beam colour might not update properly.\n" + e.Message);
         }
     }
 }
