@@ -87,6 +87,9 @@ class ConfigMenu
                 0
             );
 
+            var disclaimerLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(430f, 155f));
+            disclaimerLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+
             var closeButton = MenuAPI.CreateREPOButton("Done", () => {
                 changeGrabColourPage.ClosePage(true);
                 CustomGrabBeamColour.UpdateBeamColour();
