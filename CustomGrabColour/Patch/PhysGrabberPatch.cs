@@ -19,12 +19,10 @@ class PhysGrabberPatch
             return;
         }
 
-        BepInEx.Logging.ManualLogSource pluginLogger = Plugin.Instance.PluginLogger;
-
         CustomGrabBeamColour grabBeamColour = __instance.playerAvatar.gameObject.GetComponent<CustomGrabBeamColour>();
         if (!grabBeamColour)
         {
-            Plugin.Instance.PluginLogger.LogInfo("Player has no custom beam colour");
+            Plugin.LogMessageIfDebug("Player has no custom beam colour");
             return;
         }
 
@@ -36,7 +34,7 @@ class PhysGrabberPatch
         emissionColor.r = customColour.r;
         emissionColor.g = customColour.g;
         emissionColor.b = customColour.b;
-        pluginLogger.LogInfo("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + "). colour state is " + currentColourState);
+        Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + "). colour state is " + currentColourState);
         return;
     }
 

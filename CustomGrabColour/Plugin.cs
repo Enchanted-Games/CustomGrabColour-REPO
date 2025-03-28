@@ -20,6 +20,13 @@ namespace CustomGrabColour
 
         public ManualLogSource PluginLogger;
 
+        public static void LogMessageIfDebug(object message)
+        {
+            if(CustomGrabColourConfig.enableDebugLogs.Value)
+            {
+                Instance.PluginLogger.LogMessage("CustomGrabColour Debug: " + message);
+            }
+        }
         public static void LogMessage(object message)
         {
             Instance.PluginLogger.LogMessage("CustomGrabColour: " + message);
@@ -31,6 +38,7 @@ namespace CustomGrabColour
 
         private void Awake()
         {
+            PluginLogger.LogInfo($"Loading plugin {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
             Instance = this;
 
             PluginLogger = Logger;
@@ -43,7 +51,7 @@ namespace CustomGrabColour
             harmony.PatchAll();
 
             // Plugin startup logic
-            PluginLogger.LogInfo($"omg the mod is loading! {PluginInfo.PLUGIN_NAME} ({PluginInfo.PLUGIN_GUID})");
+            PluginLogger.LogInfo($"Loading finished for {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
         }
     }
 }

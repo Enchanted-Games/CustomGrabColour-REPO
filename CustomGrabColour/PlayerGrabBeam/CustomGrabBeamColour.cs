@@ -44,6 +44,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 	[PunRPC]
 	public void SetBeamColourRPC(float r, float g, float b)
     {
+        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + r + ", g:" + g + " b:" + b);
         currentBeamColour = new Color(r, g, b);
 
 		// invoke ColorStates method to make sure the beam colour updates properly
