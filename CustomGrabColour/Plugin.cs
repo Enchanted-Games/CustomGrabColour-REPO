@@ -2,6 +2,7 @@
 using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
+using BepInEx.Configuration;
 
 namespace CustomGrabColour
 {
@@ -19,6 +20,8 @@ namespace CustomGrabColour
         public static Plugin Instance { get; private set; }
 
         public ManualLogSource PluginLogger;
+
+        public static ConfigEntry<bool> enableDebugLogs;
 
         public static void LogMessageIfDebug(object message)
         {
@@ -38,13 +41,14 @@ namespace CustomGrabColour
 
         private void Awake()
         {
-            PluginLogger.LogInfo($"Loading plugin {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
             Instance = this;
 
             PluginLogger = Logger;
 
+            PluginLogger.LogInfo($"Loading plugin {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
+
             CustomGrabColourConfig.Init(Config);
-            CustomGrabBeamColour.LocalColour = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, new Color(1f, 0.1856f, 0f, 1f));
+            CustomGrabBeamColour.LocalColour = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, new Color(1f, 0.1856f, 0f, CustomGrabColourConfig.DefaultOpacity));
 
             // Apply Harmony patches (if any exist)
             Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);

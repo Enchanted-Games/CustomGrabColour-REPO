@@ -5,7 +5,7 @@ class ConfigUtil
 {
     public static string ColorToString(Color color)
     {
-        return color.r + ", " + color.g + ", " + color.b;
+        return color.r + ", " + color.g + ", " + color.b + ", " + color.a;
     }
 
     public static Color StringToColor(string color, Color defaultColour)
@@ -25,9 +25,25 @@ class ConfigUtil
                     return defaultColour;
                 }
             }
-            return new Color(elements[0], elements[1], elements[2], 1f);
+            return new Color(elements[0], elements[1], elements[2], CustomGrabColourConfig.DefaultOpacity);
         }
-        else
+        else if (splitString.Length == 4)
+            {
+                float[] elements = new float[4];
+                for (int i = 0; i < splitString.Length; i++)
+                {
+                    try
+                    {
+                        elements.SetValue(float.Parse(splitString[i].Trim()), i);
+                    }
+                    catch
+                    {
+                        return defaultColour;
+                    }
+                }
+                return new Color(elements[0], elements[1], elements[2], elements[3]);
+            }
+            else
         {
             return defaultColour;
         }

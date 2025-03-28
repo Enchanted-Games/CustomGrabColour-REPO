@@ -6,6 +6,7 @@ using UnityEngine;
 
 class CustomGrabColourConfig
 {
+    public static readonly float DefaultOpacity = 0.15f;
     public static string ConfigFileName = "CustomGrabColour.es3";
 
     public static ConfigEntry<string> neutralGrabBeamColour;
@@ -16,7 +17,7 @@ class CustomGrabColourConfig
         neutralGrabBeamColour = config.Bind(
             "General",
             "NeutralGrabBeamColour",
-            ConfigUtil.ColorToString(new Color(1f, 0.1856f, 0f, 1f)),
+            ConfigUtil.ColorToString(new Color(1f, 0.1856f, 0f, DefaultOpacity)),
             "The default colour for the grab beam when holding an item (when not rotating or healing a player)"
         );
 

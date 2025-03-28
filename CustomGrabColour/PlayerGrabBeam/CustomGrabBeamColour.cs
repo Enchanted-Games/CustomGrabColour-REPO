@@ -31,21 +31,21 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 	{
 		if (!GameManager.Multiplayer())
 		{
-			PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(LocalColour.r, LocalColour.g, LocalColour.b);
+			PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
 		}
 		else
 		{
-			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, LocalColour.r, LocalColour.g, LocalColour.b);
+			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
 		}
 
 		CustomGrabColourConfig.SaveColour(LocalColour);
 	}
 
 	[PunRPC]
-	public void SetBeamColourRPC(float r, float g, float b)
+	public void SetBeamColourRPC(float r, float g, float b, float a)
     {
-        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + r + ", g:" + g + " b:" + b);
-        currentBeamColour = new Color(r, g, b);
+        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + r + ", g:" + g + " b:" + b + " a:" + a);
+        currentBeamColour = new Color(r, g, b, a);
 
 		// invoke ColorStates method to make sure the beam colour updates properly
         Type physGrabberType = player.physGrabber.GetType();
