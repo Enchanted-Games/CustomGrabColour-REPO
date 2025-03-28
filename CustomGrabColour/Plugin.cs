@@ -54,6 +54,8 @@ namespace CustomGrabColour
             Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
 
+            ConfigMenu.Init();
+
             // Plugin startup logic
             PluginLogger.LogInfo($"Loading finished for {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
         }
