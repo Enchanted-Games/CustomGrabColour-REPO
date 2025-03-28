@@ -53,9 +53,25 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
 		// invoke ColorStates method to make sure the beam colour updates properly
         Type physGrabberType = player.physGrabber.GetType();
-		FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
-		colorStatesField.SetValue(player.physGrabber, -1);
-        MethodInfo colorStatesInfo = physGrabberType.GetMethod("ColorStates", BindingFlags.Instance | BindingFlags.NonPublic);
-		colorStatesInfo.Invoke(player.physGrabber, null);
+
+		try
+		{
+			FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
+			colorStatesField.SetValue(player.physGrabber, -1);
+		}
+		catch (Exception e)
+		{
+            Plugin.Instance.PluginLogger.LogError("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e.Message);
+        }
+
+		try
+		{
+			MethodInfo colorStatesInfo = physGrabberType.GetMethod("ColorStates", BindingFlags.Instance | BindingFlags.NonPublic);
+			colorStatesInfo.Invoke(player.physGrabber, null);
+        }
+        catch (Exception e)
+        {
+            Plugin.Instance.PluginLogger.LogError("Error while calling method field 'ColorStates', player beam colour might not update properly.\n" + e.Message);
+        }
     }
 }
