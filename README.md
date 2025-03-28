@@ -1,18 +1,6 @@
-# MoreSoundboardSounds
-Adds a few more sounds to the meme soundboard. [MemeSoundboard](https://thunderstore.io/c/lethal-company/p/Flof/MemeSoundboard/) is required!
+# Custom Grab Colour
+Custom Grab Colour is a mod that lets you change the colour of your grab beam! Configurable either in-game or through supported mod managers and fully multiplayer compatible!
 
-## Added sounds
-Currently this mod adds the following sounds:
-```
-- GET OUT
-- theres an impostor among us
-- AHHH HAELP HAELP HAELP
-- WAIT WAIT WAIT
-- keydrop.mp3
-- although for one of you...
-- skidaddle
-- YOU'LL NEVER SEE IT COMING
-- to be continued...
-- i just lost my dawwwwg
-- THIS IS A MOMENT IN HISTORY
-```
+## Features
+Current features of the mod:
+- Multiplayer compatible!
