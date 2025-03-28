@@ -40,6 +40,7 @@ class ConfigMenu
                     neutralGrabColourPreviewParentObject.gameObject.transform.localPosition = new Vector2(515f, 225f + f);
                 },
                 CustomGrabBeamColour.LocalColour.r,
+                1,
                 parent,
                 3
             );
@@ -53,6 +54,7 @@ class ConfigMenu
                     neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalColour.g,
+                1,
                 parent,
                 2
             );
@@ -66,6 +68,7 @@ class ConfigMenu
                     neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalColour.b,
+                1,
                 parent,
                 1
             );
@@ -79,6 +82,7 @@ class ConfigMenu
                     neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalColour.a,
+                CustomGrabColourConfig.MaxOpacity,
                 parent,
                 0
             );
@@ -123,7 +127,7 @@ class ConfigMenu
         neutralGrabColourPreviewImage.gameObject.transform.position = new Vector2(515f, 225f);
     }
 
-    public static REPOSlider CreateColourSlider(string name, string desc, Action<float> onChange, float initial, Transform parent, int offset)
+    public static REPOSlider CreateColourSlider(string name, string desc, Action<float> onChange, float initial, float max, Transform parent, int offset)
     {
         return MenuAPI.CreateREPOSlider(
             name,
@@ -132,7 +136,7 @@ class ConfigMenu
             parent,
             new Vector2(60f, 165.0f + (35 * offset)),
             0,
-            1,
+            max,
             2,
             initial,
             "",

@@ -7,6 +7,7 @@ using UnityEngine;
 class CustomGrabColourConfig
 {
     public static readonly float DefaultOpacity = 0.15f;
+    public static readonly float MaxOpacity = 0.5f;
     public static string ConfigFileName = "CustomGrabColour.es3";
 
     public static ConfigEntry<string> neutralGrabBeamColour;
@@ -32,6 +33,7 @@ class CustomGrabColourConfig
     public static void SaveColour(Color colour)
     {
         Plugin.LogMessageIfDebug("Saving colour to config file: " + colour);
+        colour.a = Mathf.Clamp(colour.a, 0f, MaxOpacity);
         neutralGrabBeamColour.Value = ConfigUtil.ColorToString(colour);
         neutralGrabBeamColour.SetSerializedValue(ConfigUtil.ColorToString(colour));
     }

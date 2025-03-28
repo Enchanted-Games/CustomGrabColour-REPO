@@ -35,6 +35,7 @@ class PhysGrabberPatch
         emissionColor.r = customColour.r;
         emissionColor.g = customColour.g;
         emissionColor.b = customColour.b;
+        emissionColor.a = customColour.a;
         Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + "). colour state is " + currentColourState);
         return;
     }

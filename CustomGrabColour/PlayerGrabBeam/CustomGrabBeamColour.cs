@@ -23,8 +23,9 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 	}
 
 	public static void UpdateBeamColour(Color newColour)
-	{
-		LocalColour = newColour;
+    {
+        newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
+        LocalColour = newColour;
         UpdateBeamColour();
 	}
 	public static void UpdateBeamColour()
@@ -45,6 +46,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 	public void SetBeamColourRPC(float r, float g, float b, float a)
     {
         Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + r + ", g:" + g + " b:" + b + " a:" + a);
+		a = Mathf.Clamp(a, 0f, CustomGrabColourConfig.MaxOpacity);
         currentBeamColour = new Color(r, g, b, a);
 
 		// invoke ColorStates method to make sure the beam colour updates properly
