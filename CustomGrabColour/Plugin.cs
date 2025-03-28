@@ -1,9 +1,7 @@
-﻿using System.IO;
-
-using BepInEx;
-
+﻿using BepInEx;
 using HarmonyLib;
 using BepInEx.Logging;
+using UnityEngine;
 
 namespace CustomGrabColour
 {
@@ -11,7 +9,7 @@ namespace CustomGrabColour
     {
         public const string PLUGIN_ID = "CustomGrabColour";
         public const string PLUGIN_NAME = "CustomGrabColour";
-        public const string PLUGIN_VERSION = "0.0.1";
+        public const string PLUGIN_VERSION = "0.0.2";
         public const string PLUGIN_GUID = "games.enchanted.CustomGrabColour";
     }
 

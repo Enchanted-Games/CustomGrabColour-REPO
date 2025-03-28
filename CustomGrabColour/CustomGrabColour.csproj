@@ -29,47 +29,82 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <Private>false</Private>
-      <HintPath>..\include\Assembly-CSharp.dll</HintPath>
-    </Reference>
-	<Reference Include="Facepunch.Steamworks.Win64">
-	  <Private>false</Private>
-	  <HintPath>..\include\Facepunch.Steamworks.Win64.dll</HintPath>
-	</Reference>
-    <Reference Include="Unity.Collections">
-      <Private>false</Private>
-      <HintPath>..\include\Unity.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
-      <Private>false</Private>
-      <HintPath>..\include\Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
-      <Private>false</Private>
-      <HintPath>..\include\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Components">
-      <Private>false</Private>
-      <HintPath>..\include\Unity.Netcode.Components.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Netcode.Runtime">
-      <Private>false</Private>
-      <HintPath>..\include\Unity.Netcode.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <Private>false</Private>
-      <HintPath>..\include\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-	<Reference Include="UnityEngine.UI">
-	  <Private>false</Private>
-	  <HintPath>..\include\UnityEngine.UI.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEngine.AssetBundleModule">
-      <Private>false</Private>
-	  <HintPath>..\include\UnityEngine.AssetBundleModule.dll</HintPath>
-	</Reference>
-    
+	  <Reference Include="Assembly-CSharp-firstpass">
+		  <Private>false</Private>
+		  <HintPath>..\include\Assembly-CSharp-firstpass.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Assembly-CSharp">
+		  <Private>false</Private>
+		  <HintPath>..\include\Assembly-CSharp.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Photon3Unity3D">
+		  <Private>false</Private>
+		  <HintPath>..\include\Photon3Unity3D.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonChat">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonChat.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonRealtime">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonRealtime.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonUnityNetworking">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonUnityNetworking.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonUnityNetworking.Utilities">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonUnityNetworking.Utilities.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonVoice">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonVoice.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonVoice.API">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonVoice.API.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PhotonVoice.PUN">
+		  <Private>false</Private>
+		  <HintPath>..\include\PhotonVoice.PUN.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Unity.TextMeshPro">
+		  <Private>false</Private>
+		  <HintPath>..\include\Unity.TextMeshPro.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.AssetBundleModule">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.AssetBundleModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.CoreModule">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.CoreModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.ImageConversionModule">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.ImageConversionModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputLegacyModule">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.InputLegacyModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.InputModule">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.InputModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.JSONSerializeModule">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.JSONSerializeModule.dll</HintPath>
+	  </Reference>
+	  <Reference Include="UnityEngine.UI">
+		  <Private>false</Private>
+		  <HintPath>..\include\UnityEngine.UI.dll</HintPath>
+	  </Reference>
   </ItemGroup>
 
   <ItemGroup>
