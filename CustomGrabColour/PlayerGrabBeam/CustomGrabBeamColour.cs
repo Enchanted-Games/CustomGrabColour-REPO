@@ -65,7 +65,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 		}
 		catch (Exception e)
 		{
-            Plugin.LogError("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e.Message);
+            Plugin.LogError("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e);
         }
 
 		try
@@ -75,7 +75,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         }
         catch (Exception e)
         {
-            Plugin.LogError("Error while calling method field 'ColorStates', player beam colour might not update properly.\n" + e.Message);
+            Plugin.LogError("Error while calling method field 'ColorStates', player beam colour might not update properly.\n" + e);
         }
     }
 }
