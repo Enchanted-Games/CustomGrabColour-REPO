@@ -12,8 +12,8 @@ copy /y ..\README.md .\releaseFiles\
 REM Copy ../CHANGELOG.md to the current directory
 copy /y ..\CHANGELOG.md .\releaseFiles\
 
-REM Copy all files from ../Template/build/bin/Debug to the current directory
-xcopy /s /y /q ..\Template\build\bin\Debug\* .\releaseFiles\
+REM Copy all files from ../CustomGrabColour/build/bin/Debug to the current directory
+xcopy /s /y /q ..\CustomGrabColour\build\bin\Debug\* .\releaseFiles\
 
 REM Create a zip file named CustomGrabColour.zip containing all files (except build.bat) in the current directory
 "C:\Program Files\7-Zip\7z.exe" a CustomGrabColour.zip .\releaseFiles\* -x!build.bat -x!CustomGrabColour.zip -x!\releaseFiles\

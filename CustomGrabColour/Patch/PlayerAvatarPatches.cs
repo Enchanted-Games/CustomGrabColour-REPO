@@ -17,8 +17,7 @@ class PlayerAvatarPatches
     [HarmonyPatch("PlayerAvatarSetColor")]
     class PlayerAvatar_PlayerAvatarSetColor_Patch
     {
-        [HarmonyPostfix]
-        public static void PlayerAvatar_PlayerAvatarSetColor_Postfix(PlayerAvatar __instance, int colorIndex)
+        public static void Postfix(PlayerAvatar __instance, int colorIndex)
         {
             // if player has custom beam colour update it
             if (__instance.GetComponent<CustomGrabBeamColour>()?.currentBeamColour != null)
