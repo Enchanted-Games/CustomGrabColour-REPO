@@ -22,7 +22,12 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 		throw new NotImplementedException();
 	}
 
-    public static void ResetLocal()
+	public static void SaveLocalColourToConfig()
+	{
+        CustomGrabColourConfig.SaveColour(LocalColour);
+    }
+
+    public static void ResetBeamColour()
 	{
 		LocalColour = CustomGrabColourConfig.DefaultColor;
 		UpdateBeamColour();
@@ -35,17 +40,14 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         UpdateBeamColour();
 	}
 	public static void UpdateBeamColour()
-	{
-		if (!GameManager.Multiplayer())
-		{
-			PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
-		}
-		else
+    {
+        if (GameManager.Multiplayer())
 		{
 			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
-		}
-
-		CustomGrabColourConfig.SaveColour(LocalColour);
+		} else
+        {
+            PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
+        }
 	}
 
 	[PunRPC]
@@ -61,7 +63,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 		try
 		{
 			FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
-			colorStatesField.SetValue(player.physGrabber, -1);
+ 			colorStatesField.SetValue(player.physGrabber, -1);
 		}
 		catch (Exception e)
 		{
@@ -75,7 +77,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         }
         catch (Exception e)
         {
-            Plugin.LogError("Error while calling method field 'ColorStates', player beam colour might not update properly.\n" + e);
+            Plugin.LogError("Error while calling method 'ColorStates', player beam colour might not update properly.\n" + e);
         }
     }
 }

@@ -93,6 +93,7 @@ class ConfigMenu
             var closeButton = MenuAPI.CreateREPOButton("Done", () => {
                 changeGrabColourPage.ClosePage(true);
                 CustomGrabBeamColour.UpdateBeamColour();
+                CustomGrabBeamColour.SaveLocalColourToConfig();
             },
                 parent,
                 new Vector2(70f, 30f)
@@ -100,8 +101,9 @@ class ConfigMenu
 
             var resetButton = MenuAPI.CreateREPOButton("Reset", () => {
                 changeGrabColourPage.ClosePage(true);
-                CustomGrabBeamColour.ResetLocal();
+                CustomGrabBeamColour.ResetBeamColour();
                 CustomGrabBeamColour.UpdateBeamColour();
+                CustomGrabBeamColour.SaveLocalColourToConfig();
             },
                 parent,
                 new Vector2(290f, 30f)

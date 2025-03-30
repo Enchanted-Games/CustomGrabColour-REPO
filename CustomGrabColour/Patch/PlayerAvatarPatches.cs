@@ -9,7 +9,7 @@ class PlayerAvatarPatches
         public static void Postfix(PlayerAvatar __instance)
         {
             // add custom grab beam colour component
-            CustomGrabBeamColour moddedColorPlayerAvatar = __instance.gameObject.AddComponent<CustomGrabBeamColour>();
+            __instance.gameObject.AddComponent<CustomGrabBeamColour>();
         }
     }
 
@@ -19,11 +19,7 @@ class PlayerAvatarPatches
     {
         public static void Postfix(PlayerAvatar __instance, int colorIndex)
         {
-            // if player has custom beam colour update it
-            if (__instance.GetComponent<CustomGrabBeamColour>()?.currentBeamColour != null)
-            {
-                CustomGrabBeamColour.UpdateBeamColour();
-            }
+            GrabBeamUtil.TrySendBeamColourUpdate(__instance);
         }
     }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 using CustomGrabColour;
 using Photon.Realtime;
 using System;
+using System.Numerics;
+using System.Reflection;
 
 
 class PhysGrabberPatches
@@ -39,7 +41,7 @@ class PhysGrabberPatches
             emissionColor.r = customColour.r;
             emissionColor.g = customColour.g;
             emissionColor.b = customColour.b;
-            emissionColor.a = customColour.a;
+            emissionColor.a = 1f;
             Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + "). colour state is " + currentColourState);
             return;
         }
@@ -53,6 +55,39 @@ class PhysGrabberPatches
         {
             // cancel changing the beam alpha
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(PhysGrabber))]
+    [HarmonyPatch("PhysGrabBeamActivateRPC")]
+    class PhysGrabber_PhysGrabBeamActivateRPC_Patch
+    {
+        static void Postfix(PhysGrabber __instance)
+        {
+            // if player has custom beam colour update it when they activate their beam
+            GrabBeamUtil.TrySendBeamColourUpdate(__instance.playerAvatar);
+        }
+    }
+
+    [HarmonyPatch(typeof(PhysGrabber))]
+    [HarmonyPatch("PhysGrabBeamActivate")]
+    class PhysGrabber_PhysGrabBeamActivate_Patch
+    {
+        static void Postfix(PhysGrabber __instance)
+        {
+            bool grabBeamActive = true;
+            try
+            {
+                FieldInfo grabBeamActiveField = __instance.GetType().GetField("physGrabBeamActive", BindingFlags.Instance | BindingFlags.NonPublic);
+                grabBeamActive = (bool)grabBeamActiveField.GetValue(__instance);
+            }
+            catch (Exception) {
+                Plugin.LogMessageIfDebug("Failed to get value of PhysGrabber physGrabBeamActive field");
+            }
+
+            if (grabBeamActive) return;
+            // if player has custom beam colour update it when they activate their beam
+            GrabBeamUtil.TrySendBeamColourUpdate(__instance.playerAvatar);
         }
     }
 }
