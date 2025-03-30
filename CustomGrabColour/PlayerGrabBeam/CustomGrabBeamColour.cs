@@ -8,7 +8,7 @@ using UnityEngine;
 // handles local and other players grab beam colours
 public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 {
-	public static Color LocalColour;
+	public static GrabBeamColour LocalColour;
     public Color currentBeamColour;
     public PlayerAvatar player;
 
@@ -24,36 +24,42 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
 	public static void SaveLocalColourToConfig()
 	{
-        CustomGrabColourConfig.SaveColour(LocalColour);
+        CustomGrabColourConfig.SaveColour(LocalColour.colour);
     }
 
     public static void ResetBeamColour()
 	{
-		LocalColour = CustomGrabColourConfig.DefaultColor;
+		LocalColour = new GrabBeamColour(CustomGrabColourConfig.DefaultColor, false, GrabBeamColour.BeamType.Neutral); // TODO: temp
 		UpdateBeamColour();
 	}
 
     public static void UpdateBeamColour(Color newColour)
     {
         newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
-        LocalColour = newColour;
+        LocalColour = new GrabBeamColour(CustomGrabColourConfig.DefaultColor, false, GrabBeamColour.BeamType.Neutral); // TODO: temp
         UpdateBeamColour();
 	}
 	public static void UpdateBeamColour()
     {
         if (GameManager.Multiplayer())
 		{
-			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
+			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, GrabBeamColour.ToRPCBuffer(LocalColour));
 		} else
         {
-            PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(LocalColour.r, LocalColour.g, LocalColour.b, LocalColour.a);
+            PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(GrabBeamColour.ToRPCBuffer(LocalColour));
         }
 	}
 
 	[PunRPC]
-	public void SetBeamColourRPC(float r, float g, float b, float a)
+	public void SetBeamColourRPC(object[] beamColourParts)
     {
-        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + r + ", g:" + g + " b:" + b + " a:" + a);
+		GrabBeamColour beamColour = GrabBeamColour.FromRPCBuffer(beamColourParts);
+		float r = beamColour.colour.r;
+		float g = beamColour.colour.g;
+		float b = beamColour.colour.b;
+		float a = beamColour.colour.a;
+
+        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + r + ", g:" + g + ", b:" + b + ", a:" + a + ", matchSkin:" + beamColour.matchSkin + ", beamType:" + beamColour.beamType);
 		a = Mathf.Clamp(a, 0f, CustomGrabColourConfig.MaxOpacity);
         currentBeamColour = new Color(r, g, b, a);
 

@@ -50,7 +50,7 @@ namespace CustomGrabColour
             CustomGrabColourConfig.Init(Config);
             Color colourFromConfig = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, CustomGrabColourConfig.DefaultColor);
             colourFromConfig.a = Mathf.Clamp(colourFromConfig.a, 0f, CustomGrabColourConfig.MaxOpacity);
-            CustomGrabBeamColour.LocalColour = colourFromConfig;
+            CustomGrabBeamColour.LocalColour = new GrabBeamColour(colourFromConfig, false, GrabBeamColour.BeamType.Neutral); // TODO: temp;
 
             // Apply Harmony patches (if any exist)
             Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);

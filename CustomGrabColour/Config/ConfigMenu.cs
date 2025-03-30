@@ -27,7 +27,7 @@ class ConfigMenu
         changeGrabColourPage.AddElement(parent =>
         {
             CreateBeamPreviewColourRectangle(parent);
-            SetBeamPreviewColourRectangleColour(CustomGrabBeamColour.LocalColour);
+            SetBeamPreviewColourRectangleColour(CustomGrabBeamColour.LocalColour.colour);
 
             var redSlider = CreateColourSlider(
                 "Red",

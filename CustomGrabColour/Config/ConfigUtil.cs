@@ -27,6 +27,7 @@ class ConfigUtil
             }
             return new Color(elements[0], elements[1], elements[2], CustomGrabColourConfig.DefaultOpacity);
         }
+        // parse rgba string
         else if (splitString.Length == 4)
             {
                 float[] elements = new float[4];
