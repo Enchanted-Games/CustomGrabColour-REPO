@@ -5,6 +5,7 @@ using Photon.Realtime;
 using System;
 using System.Numerics;
 using System.Reflection;
+using System.Threading.Tasks;
 
 
 class PhysGrabberPatches
@@ -41,7 +42,7 @@ class PhysGrabberPatches
             emissionColor.r = customColour.r;
             emissionColor.g = customColour.g;
             emissionColor.b = customColour.b;
-            emissionColor.a = 1f;
+            emissionColor.a = customColour.a;
             Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + "). colour state is " + currentColourState);
             return;
         }
@@ -73,7 +74,7 @@ class PhysGrabberPatches
     [HarmonyPatch("PhysGrabBeamActivate")]
     class PhysGrabber_PhysGrabBeamActivate_Patch
     {
-        static void Postfix(PhysGrabber __instance)
+        static async void Prefix(PhysGrabber __instance)
         {
             bool grabBeamActive = true;
             try
@@ -86,6 +87,11 @@ class PhysGrabberPatches
             }
 
             if (grabBeamActive) return;
+
+            await Task.Delay(100);
+
+            Plugin.LogMessageIfDebug("PhysGrabBeamActivate called");
+
             // if player has custom beam colour update it when they activate their beam
             GrabBeamUtil.TrySendBeamColourUpdate(__instance.playerAvatar);
         }

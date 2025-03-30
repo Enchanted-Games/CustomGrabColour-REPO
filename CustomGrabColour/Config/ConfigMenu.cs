@@ -108,6 +108,7 @@ class ConfigMenu
                 parent,
                 new Vector2(290f, 30f)
             );
+            resetButton.overrideButtonSize = resetButton.GetLabelSize() / 2;
             resetButton.transform.localScale = new Vector2(0.5f, 0.5f);
         });
 
