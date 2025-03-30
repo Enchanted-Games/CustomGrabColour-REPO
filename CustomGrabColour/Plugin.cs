@@ -38,6 +38,10 @@ namespace CustomGrabColour
         {
             Instance.PluginLogger.LogError("CustomGrabColour: " + message);
         }
+        public static void LogWarning(object message)
+        {
+            Instance.PluginLogger.LogWarning("CustomGrabColour: " + message);
+        }
 
         private void Awake()
         {
@@ -48,9 +52,9 @@ namespace CustomGrabColour
             PluginLogger.LogInfo($"Loading plugin {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
 
             CustomGrabColourConfig.Init(Config);
-            Color colourFromConfig = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeamColour.Value, CustomGrabColourConfig.DefaultColor);
+            Color colourFromConfig = ConfigUtil.StringToColor(CustomGrabColourConfig.neutralGrabBeam.beamColour.Value, CustomGrabColourConfig.DefaultColor);
             colourFromConfig.a = Mathf.Clamp(colourFromConfig.a, 0f, CustomGrabColourConfig.MaxOpacity);
-            CustomGrabBeamColour.LocalColour = new GrabBeamColour(colourFromConfig, false, GrabBeamColour.BeamType.Neutral); // TODO: temp;
+            CustomGrabBeamColour.LocalColour = new GrabBeamColourSettings(colourFromConfig, false, GrabBeamColourSettings.BeamType.Neutral); // TODO: temp;
 
             // Apply Harmony patches (if any exist)
             Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);

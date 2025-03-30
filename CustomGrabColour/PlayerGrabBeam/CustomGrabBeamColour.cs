@@ -8,7 +8,7 @@ using UnityEngine;
 // handles local and other players grab beam colours
 public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 {
-	public static GrabBeamColour LocalColour;
+	public static GrabBeamColourSettings LocalColour;
     public Color currentBeamColour;
     public PlayerAvatar player;
 
@@ -24,36 +24,36 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
 	public static void SaveLocalColourToConfig()
 	{
-        CustomGrabColourConfig.SaveColour(LocalColour.colour);
+        CustomGrabColourConfig.SaveColour(LocalColour);
     }
 
     public static void ResetBeamColour()
 	{
-		LocalColour = new GrabBeamColour(CustomGrabColourConfig.DefaultColor, false, GrabBeamColour.BeamType.Neutral); // TODO: temp
+		LocalColour = new GrabBeamColourSettings(CustomGrabColourConfig.DefaultColor, false, GrabBeamColourSettings.BeamType.Neutral); // TODO: temp
 		UpdateBeamColour();
 	}
 
     public static void UpdateBeamColour(Color newColour)
     {
         newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
-        LocalColour = new GrabBeamColour(CustomGrabColourConfig.DefaultColor, false, GrabBeamColour.BeamType.Neutral); // TODO: temp
+        LocalColour = new GrabBeamColourSettings(CustomGrabColourConfig.DefaultColor, false, GrabBeamColourSettings.BeamType.Neutral); // TODO: temp
         UpdateBeamColour();
 	}
 	public static void UpdateBeamColour()
     {
         if (GameManager.Multiplayer())
 		{
-			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, GrabBeamColour.ToRPCBuffer(LocalColour));
+			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, GrabBeamColourSettings.ToRPCBuffer(LocalColour));
 		} else
         {
-            PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(GrabBeamColour.ToRPCBuffer(LocalColour));
+            PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(GrabBeamColourSettings.ToRPCBuffer(LocalColour));
         }
 	}
 
 	[PunRPC]
 	public void SetBeamColourRPC(object[] beamColourParts)
     {
-		GrabBeamColour beamColour = GrabBeamColour.FromRPCBuffer(beamColourParts);
+		GrabBeamColourSettings beamColour = GrabBeamColourSettings.FromRPCBuffer(beamColourParts);
 		float r = beamColour.colour.r;
 		float g = beamColour.colour.g;
 		float b = beamColour.colour.b;
