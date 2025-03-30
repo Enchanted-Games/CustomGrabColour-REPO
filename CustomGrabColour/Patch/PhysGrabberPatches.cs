@@ -21,7 +21,7 @@ class PhysGrabberPatches
         {
             int currentColourState = prevColorStateRef(__instance);
 
-            if (currentColourState != 0)
+            if (currentColourState != 0 || mainColor == null || emissionColor == null)
             {
                 return;
             }
@@ -33,7 +33,15 @@ class PhysGrabberPatches
                 return;
             }
 
-            Color customColour = grabBeamColour.currentBeamColour;
+            Color customColour;
+            if (currentColourState == 0)
+            {
+                customColour = grabBeamColour.currentBeamColour;
+            }
+            else
+            {
+                return;
+            }
 
             mainColor.r = customColour.r;
             mainColor.g = customColour.g;
