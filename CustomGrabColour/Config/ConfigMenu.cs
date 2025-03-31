@@ -27,19 +27,19 @@ class ConfigMenu
         changeGrabColourPage.AddElement(parent =>
         {
             CreateBeamPreviewColourRectangle(parent);
-            SetBeamPreviewColourRectangleColour(CustomGrabBeamColour.LocalColour.colour);
+            SetBeamPreviewColourRectangleColour(CustomGrabBeamColour.LocalNeutralColour.colour);
 
             var redSlider = CreateColourSlider(
                 "Red",
                 "",
                 f => {
-                    CustomGrabBeamColour.LocalColour.r = f;
+                    CustomGrabBeamColour.LocalNeutralColour.r = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.r = f;
                     neutralGrabColourPreviewImage.color = col;
                     neutralGrabColourPreviewParentObject.gameObject.transform.localPosition = new Vector2(515f, 225f + f);
                 },
-                CustomGrabBeamColour.LocalColour.r,
+                CustomGrabBeamColour.LocalNeutralColour.r,
                 1,
                 parent,
                 3
@@ -48,12 +48,12 @@ class ConfigMenu
                 "Green",
                 "",
                 f => {
-                    CustomGrabBeamColour.LocalColour.g = f;
+                    CustomGrabBeamColour.LocalNeutralColour.g = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.g = f;
                     neutralGrabColourPreviewImage.color = col;
                 },
-                CustomGrabBeamColour.LocalColour.g,
+                CustomGrabBeamColour.LocalNeutralColour.g,
                 1,
                 parent,
                 2
@@ -62,12 +62,12 @@ class ConfigMenu
                 "Blue",
                 "",
                 f => {
-                    CustomGrabBeamColour.LocalColour.b = f;
+                    CustomGrabBeamColour.LocalNeutralColour.b = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.b = f;
                     neutralGrabColourPreviewImage.color = col;
                 },
-                CustomGrabBeamColour.LocalColour.b,
+                CustomGrabBeamColour.LocalNeutralColour.b,
                 1,
                 parent,
                 1
@@ -76,12 +76,12 @@ class ConfigMenu
                 "Opacity",
                 "",
                 f => {
-                    CustomGrabBeamColour.LocalColour.a = f;
+                    CustomGrabBeamColour.LocalNeutralColour.a = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.a = f;
                     neutralGrabColourPreviewImage.color = col;
                 },
-                CustomGrabBeamColour.LocalColour.a,
+                CustomGrabBeamColour.LocalNeutralColour.a,
                 CustomGrabColourConfig.MaxOpacity,
                 parent,
                 0
@@ -92,7 +92,7 @@ class ConfigMenu
 
             var closeButton = MenuAPI.CreateREPOButton("Done", () => {
                 changeGrabColourPage.ClosePage(true);
-                CustomGrabBeamColour.UpdateBeamColour();
+                CustomGrabBeamColour.UpdateBeamColour(GrabBeamColourSettings.BeamType.Neutral);
                 CustomGrabBeamColour.SaveLocalColourToConfig();
             },
                 parent,
@@ -102,7 +102,7 @@ class ConfigMenu
             var resetButton = MenuAPI.CreateREPOButton("Reset", () => {
                 changeGrabColourPage.ClosePage(true);
                 CustomGrabBeamColour.ResetBeamColour();
-                CustomGrabBeamColour.UpdateBeamColour();
+                CustomGrabBeamColour.UpdateBeamColour(GrabBeamColourSettings.BeamType.Neutral);
                 CustomGrabBeamColour.SaveLocalColourToConfig();
             },
                 parent,

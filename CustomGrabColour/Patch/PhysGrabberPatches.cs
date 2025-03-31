@@ -21,7 +21,7 @@ class PhysGrabberPatches
         {
             int currentColourState = prevColorStateRef(__instance);
 
-            if (currentColourState != 0 || mainColor == null || emissionColor == null)
+            if (mainColor == null || emissionColor == null)
             {
                 return;
             }
@@ -34,9 +34,18 @@ class PhysGrabberPatches
             }
 
             Color customColour;
+            // TODO: implement skin match setting
             if (currentColourState == 0)
             {
-                customColour = grabBeamColour.currentBeamColour;
+                customColour = grabBeamColour.currentNeutralColour.colour;
+            }
+            else if (currentColourState == 1)
+            {
+                customColour = grabBeamColour.currentHealingColour.colour;
+            }
+            else if (currentColourState == 2)
+            {
+                customColour = grabBeamColour.currentRotatingColour.colour;
             }
             else
             {
@@ -74,7 +83,7 @@ class PhysGrabberPatches
         static void Postfix(PhysGrabber __instance)
         {
             // if player has custom beam colour update it when they activate their beam
-            GrabBeamUtil.TrySendBeamColourUpdate(__instance.playerAvatar);
+            GrabBeamUtil.TrySendBeamColourUpdateForAllBeams(__instance.playerAvatar);
         }
     }
 
@@ -101,7 +110,7 @@ class PhysGrabberPatches
             Plugin.LogMessageIfDebug("PhysGrabBeamActivate called");
 
             // if player has custom beam colour update it when they activate their beam
-            GrabBeamUtil.TrySendBeamColourUpdate(__instance.playerAvatar);
+            GrabBeamUtil.TrySendBeamColourUpdateForAllBeams(__instance.playerAvatar);
         }
     }
 }

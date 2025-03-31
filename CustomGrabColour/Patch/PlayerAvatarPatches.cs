@@ -19,7 +19,7 @@ class PlayerAvatarPatches
     {
         public static void Postfix(PlayerAvatar __instance, int colorIndex)
         {
-            GrabBeamUtil.TrySendBeamColourUpdate(__instance);
+            GrabBeamUtil.TrySendBeamColourUpdateForAllBeams(__instance);
         }
     }
 }
