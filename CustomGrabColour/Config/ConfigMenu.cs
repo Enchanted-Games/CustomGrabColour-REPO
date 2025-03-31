@@ -15,7 +15,7 @@ class ConfigMenu
 
     public static void Init()
     {
-        MenuAPI.AddElementToMainMenu(parent =>
+        MenuAPI.AddElementToEscapeMenu(parent =>
         {
             // add button to open colour config screen
             var repoButton = MenuAPI.CreateREPOButton("Change Grab Colour", () => OpenPopup(), parent, localPosition: new Vector2(28.3f, 350.0f));

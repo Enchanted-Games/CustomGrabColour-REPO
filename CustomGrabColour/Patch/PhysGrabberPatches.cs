@@ -1,9 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 using CustomGrabColour;
-using Photon.Realtime;
 using System;
-using System.Numerics;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -57,7 +55,8 @@ class PhysGrabberPatches
             Color customColour;
             if(grabBeamSettings.matchSkin)
             {
-                customColour = Color.black;
+                customColour = grabBeamColour.BodyMaterial.GetColor(Shader.PropertyToID("_AlbedoColor"));
+                customColour.a = grabBeamSettings.colour.a;
             }
             else
             {

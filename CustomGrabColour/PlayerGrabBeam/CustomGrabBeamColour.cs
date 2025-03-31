@@ -18,6 +18,32 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     internal GrabBeamColourSettings currentHealingColour;
     internal GrabBeamColourSettings currentRotatingColour;
 
+    public PlayerAvatar player;
+    internal Material bodyMaterialInternal;
+    public Material BodyMaterial
+    {
+        set { bodyMaterialInternal = value; }
+        get {
+            if (bodyMaterialInternal == null)
+            {
+                try
+                {
+                    FieldInfo grabBeamActiveField = player.playerHealth.GetType().GetField("bodyMaterial", BindingFlags.Instance | BindingFlags.NonPublic);
+                    bodyMaterialInternal = (Material)grabBeamActiveField.GetValue(player.playerHealth);
+                }
+                catch (Exception)
+                {
+                    Plugin.LogMessageIfDebug("Failed to get value of PlayerHealth bodyMaterial field");
+                    return null;
+                }
+                return bodyMaterialInternal;
+            } else
+            {
+                return bodyMaterialInternal;
+            }
+        }
+    }
+
     public static GrabBeamColourSettings LocalBeamColour
     {
         set
@@ -99,8 +125,6 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
                 }
         }
     }
-
-    public PlayerAvatar player;
 
     void Awake()
 	{
