@@ -6,6 +6,7 @@ using System;
 using System.Numerics;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 
 class PhysGrabberPatches
@@ -16,6 +17,8 @@ class PhysGrabberPatches
     {
         static AccessTools.FieldRef<PhysGrabber, int> prevColorStateRef =
             AccessTools.FieldRefAccess<PhysGrabber, int>("prevColorState");
+        static AccessTools.FieldRef<PhysGrabber, List<GameObject>> physGrabPointVisualGridObjectsRef =
+            AccessTools.FieldRefAccess<PhysGrabber, List<GameObject>>("physGrabPointVisualGridObjects");
 
         static void Prefix(PhysGrabber __instance, ref Color mainColor, ref Color emissionColor)
         {
@@ -33,23 +36,32 @@ class PhysGrabberPatches
                 return;
             }
 
-            Color customColour;
-            // TODO: implement skin match setting
+            GrabBeamColourSettings grabBeamSettings;
             if (currentColourState == 0)
             {
-                customColour = grabBeamColour.currentNeutralColour.colour;
+                grabBeamSettings = grabBeamColour.currentNeutralColour;
             }
             else if (currentColourState == 1)
             {
-                customColour = grabBeamColour.currentHealingColour.colour;
+                grabBeamSettings = grabBeamColour.currentHealingColour;
             }
             else if (currentColourState == 2)
             {
-                customColour = grabBeamColour.currentRotatingColour.colour;
+                grabBeamSettings = grabBeamColour.currentRotatingColour;
             }
             else
             {
                 return;
+            }
+
+            Color customColour;
+            if(grabBeamSettings.matchSkin)
+            {
+                customColour = Color.black;
+            }
+            else
+            {
+                customColour = grabBeamSettings.colour;
             }
 
             mainColor.r = customColour.r;
@@ -60,7 +72,23 @@ class PhysGrabberPatches
             emissionColor.g = customColour.g;
             emissionColor.b = customColour.b;
             emissionColor.a = customColour.a;
+
             Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + "). colour state is " + currentColourState);
+
+            List<GameObject> physGrabPointVisualGridObjects = physGrabPointVisualGridObjectsRef(__instance);
+
+            for (int i = 0; i < physGrabPointVisualGridObjects.Count; i++)
+            {
+                Material gridMeshMaterial = physGrabPointVisualGridObjects[i].GetComponent<MeshRenderer>().material;
+                if(gridMeshMaterial)
+                {
+                    Plugin.LogMessageIfDebug("Set grid mesh to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + ")");
+
+                    gridMeshMaterial.color = customColour;
+                    gridMeshMaterial.SetColor("_EmissionColor", customColour);
+                }
+            }
+
             return;
         }
     }

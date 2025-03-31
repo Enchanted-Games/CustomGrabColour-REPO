@@ -3,6 +3,7 @@ using MenuLib;
 using MenuLib.MonoBehaviors;
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 class ConfigMenu
@@ -86,14 +87,23 @@ class ConfigMenu
                 parent,
                 0
             );
+            var matchSkinToggle = MenuAPI.CreateREPOToggle(
+                "Match Skin Colour",
+                (val) => { CustomGrabBeamColour.LocalNeutralColour.matchSkin = val; },
+                parent,
+                new Vector2(80f, 165.0f + (35 * -1)),
+                "Yes",
+                "No",
+                CustomGrabBeamColour.LocalNeutralColour.matchSkin
+            );
 
             var disclaimerLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(425f, 155f));
             disclaimerLabel.transform.localScale = new Vector2(0.5f, 0.5f);
 
             var closeButton = MenuAPI.CreateREPOButton("Done", () => {
                 changeGrabColourPage.ClosePage(true);
-                CustomGrabBeamColour.UpdateBeamColour(GrabBeamColourSettings.BeamType.Neutral);
-                CustomGrabBeamColour.SaveLocalColourToConfig();
+                CustomGrabBeamColour.UpdateBeamColourForAllBeams();
+                CustomGrabBeamColour.SaveLocalColoursToConfig();
             },
                 parent,
                 new Vector2(70f, 30f)
@@ -101,9 +111,9 @@ class ConfigMenu
 
             var resetButton = MenuAPI.CreateREPOButton("Reset", () => {
                 changeGrabColourPage.ClosePage(true);
-                CustomGrabBeamColour.ResetBeamColour();
-                CustomGrabBeamColour.UpdateBeamColour(GrabBeamColourSettings.BeamType.Neutral);
-                CustomGrabBeamColour.SaveLocalColourToConfig();
+                CustomGrabBeamColour.ResetBeamColours();
+                CustomGrabBeamColour.UpdateBeamColourForAllBeams();
+                CustomGrabBeamColour.SaveLocalColoursToConfig();
             },
                 parent,
                 new Vector2(290f, 30f)

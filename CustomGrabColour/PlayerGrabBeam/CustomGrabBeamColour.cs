@@ -112,15 +112,19 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 		throw new NotImplementedException();
 	}
 
-	public static void SaveLocalColourToConfig()
+	public static void SaveLocalColoursToConfig()
 	{
         CustomGrabColourConfig.SaveColour(LocalNeutralColour);
+        CustomGrabColourConfig.SaveColour(LocalHealingColour);
+        CustomGrabColourConfig.SaveColour(LocalRotatingColour);
     }
 
-    public static void ResetBeamColour()
-	{ // TODO: temp
+    public static void ResetBeamColours()
+	{
 		LocalNeutralColour = new GrabBeamColourSettings(CustomGrabColourConfig.NeutralDefaultColour, false, BeamType.Neutral);
-		UpdateBeamColour(BeamType.Neutral);
+        LocalHealingColour = new GrabBeamColourSettings(CustomGrabColourConfig.HealingDefaultColour, false, BeamType.Heal);
+        LocalRotatingColour = new GrabBeamColourSettings(CustomGrabColourConfig.RotatingDefaultColour, false, BeamType.Rotate);
+        UpdateBeamColourForAllBeams();
 	}
 
     public static void UpdateBeamColour(GrabBeamColourSettings newColour)
