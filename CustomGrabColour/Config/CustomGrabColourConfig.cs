@@ -48,22 +48,6 @@ class CustomGrabColourConfig
         BeamTypeToConfigEntries.Add(GrabBeamColourSettings.BeamType.Neutral, neutralGrabBeam);
 
 
-        ConfigEntry<string> healingGrabBeamColour = config.Bind(
-            "General",
-            "HealingGrabBeamColour",
-            ConfigUtil.ColorToString(NeutralDefaultColour),
-            "The colour of the grab beam when healing another player." + ColourNotes
-        );
-        ConfigEntry<bool> healingGrabBeamMatchSkin = config.Bind(
-            "General",
-            "HealingGrabBeamMatchSkin",
-            false,
-            "Should the healing grab beam match the colour of your skin?"
-        );
-        healingGrabBeam = new BeamConfigEntries(healingGrabBeamColour, healingGrabBeamMatchSkin);
-        BeamTypeToConfigEntries.Add(GrabBeamColourSettings.BeamType.Heal, healingGrabBeam);
-
-
         ConfigEntry<string> rotatingGrabBeamColour = config.Bind(
             "General",
             "RotatingGrabBeamColour",
@@ -78,6 +62,22 @@ class CustomGrabColourConfig
         );
         rotatingGrabBeam = new BeamConfigEntries(rotatingGrabBeamColour, rotatingGrabBeamMatchSkin);
         BeamTypeToConfigEntries.Add(GrabBeamColourSettings.BeamType.Rotate, rotatingGrabBeam);
+
+
+        ConfigEntry<string> healingGrabBeamColour = config.Bind(
+            "General",
+            "HealingGrabBeamColour",
+            ConfigUtil.ColorToString(NeutralDefaultColour),
+            "The colour of the grab beam when healing another player." + ColourNotes
+        );
+        ConfigEntry<bool> healingGrabBeamMatchSkin = config.Bind(
+            "General",
+            "HealingGrabBeamMatchSkin",
+            false,
+            "Should the healing grab beam match the colour of your skin?"
+        );
+        healingGrabBeam = new BeamConfigEntries(healingGrabBeamColour, healingGrabBeamMatchSkin);
+        BeamTypeToConfigEntries.Add(GrabBeamColourSettings.BeamType.Heal, healingGrabBeam);
 
 
         enableDebugLogs = config.Bind(
@@ -97,15 +97,15 @@ class CustomGrabColourConfig
         neutralColourFromConfig.a = Mathf.Clamp(neutralColourFromConfig.a, 0f, MaxOpacity);
         CustomGrabBeamColour.LocalNeutralColour = new GrabBeamColourSettings(neutralColourFromConfig, neutralGrabBeam.matchSkin.Value, GrabBeamColourSettings.BeamType.Neutral);
 
-        // load healing colour
-        Color healingColourFromConfig = ConfigUtil.StringToColor(healingGrabBeam.beamColour.Value, HealingDefaultColour);
-        healingColourFromConfig.a = Mathf.Clamp(healingColourFromConfig.a, 0f, MaxOpacity);
-        CustomGrabBeamColour.LocalHealingColour = new GrabBeamColourSettings(healingColourFromConfig, healingGrabBeam.matchSkin.Value, GrabBeamColourSettings.BeamType.Heal);
-
         // load rotating colour
         Color rotatingColourFromConfig = ConfigUtil.StringToColor(rotatingGrabBeam.beamColour.Value, HealingDefaultColour);
         rotatingColourFromConfig.a = Mathf.Clamp(rotatingColourFromConfig.a, 0f, MaxOpacity);
         CustomGrabBeamColour.LocalRotatingColour = new GrabBeamColourSettings(rotatingColourFromConfig, rotatingGrabBeam.matchSkin.Value, GrabBeamColourSettings.BeamType.Rotate);
+
+        // load healing colour
+        Color healingColourFromConfig = ConfigUtil.StringToColor(healingGrabBeam.beamColour.Value, HealingDefaultColour);
+        healingColourFromConfig.a = Mathf.Clamp(healingColourFromConfig.a, 0f, MaxOpacity);
+        CustomGrabBeamColour.LocalHealingColour = new GrabBeamColourSettings(healingColourFromConfig, healingGrabBeam.matchSkin.Value, GrabBeamColourSettings.BeamType.Heal);
     }
 
     public static void SaveColour(GrabBeamColourSettings beamColourSettings)

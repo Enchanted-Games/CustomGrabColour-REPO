@@ -56,6 +56,10 @@ class PhysGrabberPatches
             if(grabBeamSettings.matchSkin)
             {
                 customColour = grabBeamColour.BodyMaterial.GetColor(Shader.PropertyToID("_AlbedoColor"));
+                if (customColour == null)
+                {
+                    customColour = grabBeamSettings.colour;
+                }
                 customColour.a = grabBeamSettings.colour.a;
             }
             else
@@ -63,14 +67,14 @@ class PhysGrabberPatches
                 customColour = grabBeamSettings.colour;
             }
 
-            mainColor.r = customColour.r;
-            mainColor.g = customColour.g;
-            mainColor.b = customColour.b;
+            mainColor.r = customColour.r / 1.7f;
+            mainColor.g = customColour.g / 1.7f; // TODO: probably find a better way to fix this
+            mainColor.b = customColour.b / 1.7f;
             mainColor.a = customColour.a;
-            //emissionColor.r = customColour.r;
-            //emissionColor.g = customColour.g;
-            //emissionColor.b = customColour.b;
-            //emissionColor.a = customColour.a;
+            //emissionColor.r = customColour.r / 1.7f;
+            //emissionColor.g = customColour.g / 1.7f;
+            //emissionColor.b = customColour.b / 1.7f;
+            //emissionColor.a = 0.1f;
             emissionColor = Color.black;
             emissionColor.a = 0;
 
