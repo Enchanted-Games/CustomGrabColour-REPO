@@ -7,6 +7,7 @@ v2 comes with a bunch of fixes and two much requested new features!
 - You can now customise the colour of your grab beam when rotating objects or healing other players!
    - Each beam type can be customised independently
 - Added a new option that lets you automatically sync the beam colour to your skin colour
+   - When this option is enabled, all settings for that beam type will be ignored apart from the opacity
    - Even works with the CustomColors mod!
 - By default, the neutral grab beam will now match your skin colour
    - To disable, simply set "Match Skin Colour" to "off" in the config menu
