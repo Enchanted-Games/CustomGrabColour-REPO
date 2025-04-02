@@ -11,7 +11,7 @@ public struct GrabBeamColourSettings(Color colour, bool matchSkin, BeamType beam
     public static object[] ToRPCBuffer(GrabBeamColourSettings beamColour)
     {
         Color colour = beamColour.colour;
-        return [colour.r, colour.g, colour.b, colour.a, beamColour.matchSkin, beamColour.beamType];
+        return [colour.r, colour.g, colour.b, colour.a, beamColour.matchSkin, (byte)beamColour.beamType];
     }
 
     public static GrabBeamColourSettings FromRPCBuffer(object[] rpcBuffer)
@@ -22,7 +22,7 @@ public struct GrabBeamColourSettings(Color colour, bool matchSkin, BeamType beam
             rpcBuffer[2] is not float ||
             rpcBuffer[3] is not float ||
             rpcBuffer[4] is not bool ||
-            rpcBuffer[5] is not BeamType
+            rpcBuffer[5] is not byte
         )
         {
             throw new ArgumentException("FromRPCBuffer recieved incorrect parameters");
@@ -52,9 +52,9 @@ public struct GrabBeamColourSettings(Color colour, bool matchSkin, BeamType beam
         set { colour.a = value; }
     }
 
-    public enum BeamType
+    public enum BeamType : byte
     {
-        Neutral,
+        Neutral = 0,
         Heal,
         Rotate,
     }

@@ -36,6 +36,13 @@ namespace CustomGrabColour
         }
         public static void LogError(object message)
         {
+            if (CustomGrabColourConfig.enableDebugLogs.Value)
+            {
+                Instance.PluginLogger.LogError("CustomGrabColour Debug: " + message);
+            }
+        }
+        public static void LogErrorIfDebug(object message)
+        {
             Instance.PluginLogger.LogError("CustomGrabColour: " + message);
         }
         public static void LogWarning(object message)
