@@ -188,6 +188,8 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
         CurrentBeamColour = newBeamColour;
 
+        if (newBeamColour.beamType != BeamType.Neutral) return;
+
         // invoke ColorStates method to make sure the beam colour updates properly
         Type physGrabberType = player.physGrabber.GetType();
 
@@ -198,7 +200,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         }
         catch (Exception e)
         {
-            Plugin.LogErrorIfDebug("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e);
+            Plugin.LogErrorIfDebug("Error while setting field 'prevColorState', this is probably harmless.\n" + e);
         }
 
         try
@@ -208,7 +210,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         }
         catch (Exception e)
         {
-            Plugin.LogErrorIfDebug("Error while calling method 'ColorStates', player beam colour might not update properly.\n" + e);
+            Plugin.LogErrorIfDebug("Error while calling method 'ColorStates', this is probably harmless.\n" + e);
         }
     }
 
