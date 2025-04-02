@@ -1,9 +1,7 @@
-using CustomGrabColour;
 using MenuLib;
 using MenuLib.MonoBehaviors;
 using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 class ConfigMenu
@@ -11,10 +9,21 @@ class ConfigMenu
     private static Image neutralGrabColourPreviewImage;
     private static GameObject neutralGrabColourPreviewParent;
 
+    private static Image rotatingGrabColourPreviewImage;
+    private static GameObject rotatingGrabColourPreviewParent;
+
+    private static Image healingGrabColourPreviewImage;
+    private static GameObject healingGrabColourPreviewParent;
+
     private static float horizontalPos = 70f;
 
     public static void Init()
     {
+        MenuAPI.AddElementToMainMenu(parent =>
+        {
+            // add button to open colour config screen
+            var repoButton = MenuAPI.CreateREPOButton("Change Grab Colour", () => OpenPopup(), parent, localPosition: new Vector2(28.3f, 350.0f));
+        });
         MenuAPI.AddElementToEscapeMenu(parent =>
         {
             // add button to open colour config screen
@@ -30,11 +39,28 @@ class ConfigMenu
         // colour previews
         changeGrabColourPage.AddElement(parent =>
         {
-            var disclaimerLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(425f, 155f));
-            disclaimerLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            float neutralYPos = getVerticalPos(0);
+            var neutralLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(400f, neutralYPos - 170));
+            neutralLabel.transform.localScale = new Vector2(0.5f, 0.5f);
             if(!neutralGrabColourPreviewParent)
             {
-                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, 225f), out neutralGrabColourPreviewParent, out neutralGrabColourPreviewImage);
+                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, neutralYPos), out neutralGrabColourPreviewParent, out neutralGrabColourPreviewImage);
+            }
+
+            float rotatingYPos = getVerticalPos(1);
+            var rotatingLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(400f, rotatingYPos - 170));
+            rotatingLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            if (!rotatingGrabColourPreviewParent)
+            {
+                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, rotatingYPos), out rotatingGrabColourPreviewParent, out rotatingGrabColourPreviewImage);
+            }
+
+            float healingYPos = getVerticalPos(2);
+            var healingLabel = MenuAPI.CreateREPOLabel("Preview may not be 100% accurate ", parent, new Vector2(400f, healingYPos - 170));
+            healingLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            if (!healingGrabColourPreviewParent)
+            {
+                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, healingYPos), out healingGrabColourPreviewParent, out healingGrabColourPreviewImage);
             }
         });
 
@@ -168,6 +194,13 @@ class ConfigMenu
     private static void SetupPreviewRectangleColours(Color neutralColour, Color healingColour, Color rotatingColour)
     {
         neutralGrabColourPreviewImage.color = neutralColour;
+        healingGrabColourPreviewImage.color = healingColour;
+        rotatingGrabColourPreviewImage.color = rotatingColour;
+    }
+
+    private static void HandleNeutralSettingsUpdate()
+    {
+        // TODO: update preview rectangle colour and add get body colour method to CustomGrabBeamColour
     }
 
     private static void CreateBeamPreviewColourRectangle(Transform parent, Vector2 position, out GameObject colourPreviewParent, out Image colourPreviewImage)
@@ -217,6 +250,6 @@ class ConfigMenu
     {
         int index = -Math.Abs(0 - offset);
         index += 3;
-        return 180.0f + (30 * index);
+        return -30f + (120 * index);
     }
 }
