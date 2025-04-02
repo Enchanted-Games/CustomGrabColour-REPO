@@ -59,11 +59,7 @@ class PhysGrabberPatches
             Color customColour;
             if(grabBeamSettings.matchSkin)
             {
-                customColour = grabBeamColour.BodyMaterial.GetColor(Shader.PropertyToID("_AlbedoColor"));
-                if (customColour == null)
-                {
-                    customColour = grabBeamSettings.colour;
-                }
+                customColour = grabBeamColour.GetBodyColour(grabBeamSettings.colour);
                 customColour.a = grabBeamSettings.colour.a;
             }
             else

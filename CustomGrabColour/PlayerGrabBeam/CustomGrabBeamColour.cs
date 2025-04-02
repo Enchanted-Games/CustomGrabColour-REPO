@@ -10,7 +10,7 @@ using static GrabBeamColourSettings;
 // handles local and other players grab beam colours
 public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 {
-	internal static GrabBeamColourSettings LocalNeutralColour;
+    internal static GrabBeamColourSettings LocalNeutralColour;
     internal static GrabBeamColourSettings LocalHealingColour;
     internal static GrabBeamColourSettings LocalRotatingColour;
 
@@ -127,36 +127,36 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     }
 
     void Awake()
-	{
-		player = gameObject.GetComponent<PlayerAvatar>();
+    {
+        player = gameObject.GetComponent<PlayerAvatar>();
     }
 
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{
-		throw new NotImplementedException();
-	}
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        throw new NotImplementedException();
+    }
 
-	public static void SaveLocalColoursToConfig()
-	{
+    public static void SaveLocalColoursToConfig()
+    {
         CustomGrabColourConfig.SaveColour(LocalNeutralColour);
         CustomGrabColourConfig.SaveColour(LocalHealingColour);
         CustomGrabColourConfig.SaveColour(LocalRotatingColour);
     }
 
     public static void ResetBeamColours()
-	{
-		LocalNeutralColour = new GrabBeamColourSettings(CustomGrabColourConfig.NeutralDefaultColour, false, BeamType.Neutral);
+    {
+        LocalNeutralColour = new GrabBeamColourSettings(CustomGrabColourConfig.NeutralDefaultColour, false, BeamType.Neutral);
         LocalHealingColour = new GrabBeamColourSettings(CustomGrabColourConfig.HealingDefaultColour, false, BeamType.Heal);
         LocalRotatingColour = new GrabBeamColourSettings(CustomGrabColourConfig.RotatingDefaultColour, false, BeamType.Rotate);
         UpdateBeamColourForAllBeams();
-	}
+    }
 
     public static void UpdateBeamColour(GrabBeamColourSettings newColour)
     {
         newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
         LocalBeamColour = newColour;
         UpdateBeamColour(newColour.beamType);
-	}
+    }
     public static void UpdateBeamColourForAllBeams()
     {
         foreach (BeamType beamType in Enum.GetValues(typeof(BeamType)))
@@ -170,45 +170,56 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         GrabBeamColourSettings settings = GetLocalSettingsForBeamType(beamType);
 
         if (GameManager.Multiplayer())
-		{
-			PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, ToRPCBuffer(settings));
-		} else
+        {
+            PlayerAvatar.instance.photonView.RPC("SetBeamColourRPC", RpcTarget.AllBuffered, ToRPCBuffer(settings));
+        } else
         {
             PlayerAvatar.instance.GetComponent<CustomGrabBeamColour>().SetBeamColourRPC(ToRPCBuffer(settings));
         }
-	}
+    }
 
-	[PunRPC]
-	public void SetBeamColourRPC(object[] beamColourParts)
+    [PunRPC]
+    public void SetBeamColourRPC(object[] beamColourParts)
     {
-		GrabBeamColourSettings newBeamColour = FromRPCBuffer(beamColourParts);
+        GrabBeamColourSettings newBeamColour = FromRPCBuffer(beamColourParts);
         Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + newBeamColour.r + ", g:" + newBeamColour.g + ", b:" + newBeamColour.b + ", a:" + newBeamColour.a + ", matchSkin:" + newBeamColour.matchSkin + ", beamType:" + newBeamColour.beamType);
 
         newBeamColour.a = Mathf.Clamp(newBeamColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
 
         CurrentBeamColour = newBeamColour;
 
-		// invoke ColorStates method to make sure the beam colour updates properly
+        // invoke ColorStates method to make sure the beam colour updates properly
         Type physGrabberType = player.physGrabber.GetType();
 
-		try
-		{
-			FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
- 			colorStatesField.SetValue(player.physGrabber, -1);
-		}
-		catch (Exception e)
-		{
+        try
+        {
+            FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
+            colorStatesField.SetValue(player.physGrabber, -1);
+        }
+        catch (Exception e)
+        {
             Plugin.LogError("Error while setting field 'prevColorState', player beam colour might not update properly.\n" + e);
         }
 
-		try
-		{
-			MethodInfo colorStatesInfo = physGrabberType.GetMethod("ColorStates", BindingFlags.Instance | BindingFlags.NonPublic);
-			colorStatesInfo.Invoke(player.physGrabber, null);
+        try
+        {
+            MethodInfo colorStatesInfo = physGrabberType.GetMethod("ColorStates", BindingFlags.Instance | BindingFlags.NonPublic);
+            colorStatesInfo.Invoke(player.physGrabber, null);
         }
         catch (Exception e)
         {
             Plugin.LogError("Error while calling method 'ColorStates', player beam colour might not update properly.\n" + e);
         }
+    }
+
+    // gets the body colour of the player this beam belongs to, will return the fallback colour if no body colour is found
+    public Color GetBodyColour(Color fallbackColour)
+    {
+        Color bodyColour = BodyMaterial.GetColor(Shader.PropertyToID("_AlbedoColor"));
+        if (bodyColour == null)
+        {
+            return fallbackColour;
+        }
+        return bodyColour;
     }
 }
