@@ -41,7 +41,7 @@ class ConfigMenu
         {
             // neutral
             float neutralYPos = getVerticalPos(0);
-            var neutralLabel = MenuAPI.CreateREPOLabel("Neutral Colour Preview", parent, new Vector2(400f, neutralYPos - 100));
+            var neutralLabel = MenuAPI.CreateREPOLabel("Neutral Colour Preview", parent, new Vector2(452f, neutralYPos - 60));
             neutralLabel.transform.localScale = new Vector2(0.5f, 0.5f);
             if(!neutralGrabColourPreviewParent)
             {
@@ -50,7 +50,7 @@ class ConfigMenu
 
             // rotating
             float rotatingYPos = getVerticalPos(1);
-            var rotatingLabel = MenuAPI.CreateREPOLabel("Rotating Colour Preview", parent, new Vector2(400f, rotatingYPos - 100));
+            var rotatingLabel = MenuAPI.CreateREPOLabel("Rotating Colour Preview", parent, new Vector2(452f, rotatingYPos - 60));
             rotatingLabel.transform.localScale = new Vector2(0.5f, 0.5f);
             if (!rotatingGrabColourPreviewParent)
             {
@@ -59,7 +59,7 @@ class ConfigMenu
 
             // healing
             float healingYPos = getVerticalPos(2);
-            var healingLabel = MenuAPI.CreateREPOLabel("Healing Colour Preview", parent, new Vector2(400f, healingYPos - 100));
+            var healingLabel = MenuAPI.CreateREPOLabel("Healing Colour Preview", parent, new Vector2(452f, healingYPos - 60));
             healingLabel.transform.localScale = new Vector2(0.5f, 0.5f);
             if (!healingGrabColourPreviewParent)
             {
@@ -81,11 +81,11 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalNeutralColour.matchSkin) return;
                     CustomGrabBeamColour.LocalNeutralColour.r = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.r = f;
                     neutralGrabColourPreviewImage.color = col;
-                    HandleNeutralSettingsUpdate();
                 },
                 CustomGrabBeamColour.LocalNeutralColour.r,
                 1,
@@ -101,11 +101,11 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalNeutralColour.matchSkin) return;
                     CustomGrabBeamColour.LocalNeutralColour.g = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.g = f;
                     neutralGrabColourPreviewImage.color = col;
-                    HandleNeutralSettingsUpdate();
                 },
                 CustomGrabBeamColour.LocalNeutralColour.g,
                 1,
@@ -121,11 +121,11 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalNeutralColour.matchSkin) return;
                     CustomGrabBeamColour.LocalNeutralColour.b = f;
                     Color col = neutralGrabColourPreviewImage.color;
                     col.b = f;
                     neutralGrabColourPreviewImage.color = col;
-                    HandleNeutralSettingsUpdate();
                 },
                 CustomGrabBeamColour.LocalNeutralColour.b,
                 1,
@@ -145,7 +145,6 @@ class ConfigMenu
                     Color col = neutralGrabColourPreviewImage.color;
                     col.a = f;
                     neutralGrabColourPreviewImage.color = col;
-                    HandleNeutralSettingsUpdate();
                 },
                 CustomGrabBeamColour.LocalNeutralColour.a,
                 CustomGrabColourConfig.MaxOpacity,
@@ -161,7 +160,7 @@ class ConfigMenu
                 (val) =>
                 {
                     CustomGrabBeamColour.LocalNeutralColour.matchSkin = val;
-                    HandleNeutralSettingsUpdate();
+                    HandleNeutralSkinMatchChange();
                 },
                 parent,
                 new Vector2(0, getVerticalOffsetForScrollChildren(5)),
@@ -186,6 +185,7 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalRotatingColour.matchSkin) return;
                     CustomGrabBeamColour.LocalRotatingColour.r = f;
                     Color col = rotatingGrabColourPreviewImage.color;
                     col.r = f;
@@ -206,6 +206,7 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalRotatingColour.matchSkin) return;
                     CustomGrabBeamColour.LocalRotatingColour.g = f;
                     Color col = rotatingGrabColourPreviewImage.color;
                     col.g = f;
@@ -226,6 +227,7 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalRotatingColour.matchSkin) return;
                     CustomGrabBeamColour.LocalRotatingColour.b = f;
                     Color col = rotatingGrabColourPreviewImage.color;
                     col.b = f;
@@ -291,6 +293,7 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalHealingColour.matchSkin) return;
                     CustomGrabBeamColour.LocalHealingColour.r = f;
                     Color col = healingGrabColourPreviewImage.color;
                     col.r = f;
@@ -311,6 +314,7 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalHealingColour.matchSkin) return;
                     CustomGrabBeamColour.LocalHealingColour.g = f;
                     Color col = healingGrabColourPreviewImage.color;
                     col.g = f;
@@ -331,6 +335,7 @@ class ConfigMenu
                 "",
                 f =>
                 {
+                    if (CustomGrabBeamColour.LocalHealingColour.matchSkin) return;
                     CustomGrabBeamColour.LocalHealingColour.b = f;
                     Color col = healingGrabColourPreviewImage.color;
                     col.b = f;
@@ -418,19 +423,31 @@ class ConfigMenu
         neutralGrabColourPreviewImage.color = neutralColour;
         healingGrabColourPreviewImage.color = healingColour;
         rotatingGrabColourPreviewImage.color = rotatingColour;
+        HandleNeutralSkinMatchChange();
+        HandleRotatingSettingsUpdate();
+        HandleHealingSettingsUpdate();
     }
 
-    private static void HandleNeutralSettingsUpdate()
+    private static void HandleNeutralSkinMatchChange()
     {
-        // TODO: update preview rectangle colour and add get body colour method to CustomGrabBeamColour
+        neutralGrabColourPreviewImage.color = CustomGrabBeamColour.LocalNeutralColour.matchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalNeutralColour.colour;
+        Color col = neutralGrabColourPreviewImage.color;
+        col.a = CustomGrabBeamColour.LocalNeutralColour.colour.a;
+        neutralGrabColourPreviewImage.color = col;
     }
     private static void HandleRotatingSettingsUpdate()
     {
-        // TODO: update preview rectangle colour and add get body colour method to CustomGrabBeamColour
+        rotatingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalRotatingColour.matchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalRotatingColour.colour;
+        Color col = rotatingGrabColourPreviewImage.color;
+        col.a = CustomGrabBeamColour.LocalRotatingColour.colour.a;
+        rotatingGrabColourPreviewImage.color = col;
     }
     private static void HandleHealingSettingsUpdate()
     {
-        // TODO: update preview rectangle colour and add get body colour method to CustomGrabBeamColour
+        healingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalHealingColour.matchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalHealingColour.colour;
+        Color col = healingGrabColourPreviewImage.color;
+        col.a = CustomGrabBeamColour.LocalHealingColour.colour.a;
+        healingGrabColourPreviewImage.color = col;
     }
 
     private static void CreateBeamPreviewColourRectangle(Transform parent, Vector2 position, out GameObject colourPreviewParent, out Image colourPreviewImage)
@@ -451,6 +468,7 @@ class ConfigMenu
 
         colourPreviewImage.color = new Color(1.0F, 0.0F, 0.0F);
         colourPreviewImage.gameObject.transform.position = position;
+        colourPreviewImage.gameObject.transform.localScale = new Vector3(0.85f, 0.85f, 1f);
     }
 
     public static REPOSlider CreateColourSlider(string name, string desc, Action<float> onChange, float initial, float max, Transform parent, Vector2 localPosition)
@@ -480,6 +498,7 @@ class ConfigMenu
     {
         int index = -Math.Abs(0 - offset);
         index += 3;
-        return -30f + (120 * index);
+        // first number is offset from bottom, second number is spacing between elements
+        return -12f + (110 * index);
     }
 }

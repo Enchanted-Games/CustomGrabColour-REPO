@@ -38,7 +38,7 @@ class CustomGrabColourConfig
         ConfigEntry<bool> neutralGrabBeamMatchSkin = config.Bind(
             "General",
             "NeutralGrabBeamMatchSkin",
-            false,
+            true,
             "Should the neutral grab beam match the colour of your skin?"
         );
         neutralGrabBeam = new BeamConfigEntries(neutralGrabBeamColour, neutralGrabBeamMatchSkin);

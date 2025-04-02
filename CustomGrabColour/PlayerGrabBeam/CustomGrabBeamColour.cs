@@ -145,9 +145,9 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
     public static void ResetBeamColours()
     {
-        LocalNeutralColour = new GrabBeamColourSettings(CustomGrabColourConfig.NeutralDefaultColour, false, BeamType.Neutral);
-        LocalHealingColour = new GrabBeamColourSettings(CustomGrabColourConfig.HealingDefaultColour, false, BeamType.Heal);
-        LocalRotatingColour = new GrabBeamColourSettings(CustomGrabColourConfig.RotatingDefaultColour, false, BeamType.Rotate);
+        LocalNeutralColour = new GrabBeamColourSettings(CustomGrabColourConfig.NeutralDefaultColour, (bool)CustomGrabColourConfig.neutralGrabBeam.matchSkin.DefaultValue, BeamType.Neutral);
+        LocalHealingColour = new GrabBeamColourSettings(CustomGrabColourConfig.HealingDefaultColour, (bool)CustomGrabColourConfig.healingGrabBeam.matchSkin.DefaultValue, BeamType.Heal);
+        LocalRotatingColour = new GrabBeamColourSettings(CustomGrabColourConfig.RotatingDefaultColour, (bool)CustomGrabColourConfig.rotatingGrabBeam.matchSkin.DefaultValue, BeamType.Rotate);
         UpdateBeamColourForAllBeams();
     }
 
@@ -216,6 +216,27 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     public Color GetBodyColour(Color fallbackColour)
     {
         Color bodyColour = BodyMaterial.GetColor(Shader.PropertyToID("_AlbedoColor"));
+        if (bodyColour == null)
+        {
+            return fallbackColour;
+        }
+        return bodyColour;
+    }
+
+    public static Color GetLocalBodyColour(Color fallbackColour)
+    {
+        Color bodyColour;
+        try
+        {
+            FieldInfo grabBeamActiveField = PlayerAvatar.instance.playerHealth.GetType().GetField("bodyMaterial", BindingFlags.Instance | BindingFlags.NonPublic);
+            Material bodyMat = (Material)grabBeamActiveField.GetValue(PlayerAvatar.instance.playerHealth);
+            bodyColour = bodyMat.GetColor(Shader.PropertyToID("_AlbedoColor"));
+        }
+        catch (Exception)
+        {
+            Plugin.LogMessageIfDebug("Failed to get value of PlayerHealth bodyMaterial field in GetLocalBodyColour");
+            return fallbackColour;
+        }
         if (bodyColour == null)
         {
             return fallbackColour;
