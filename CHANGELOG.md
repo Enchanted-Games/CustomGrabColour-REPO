@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1
+Forgot to update the changelog, this version is identical to 2.0.0
+
 ## 2.0.0
 v2 comes with a bunch of fixes and two much requested new features!
 
