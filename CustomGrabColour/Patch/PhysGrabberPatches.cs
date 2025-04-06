@@ -68,13 +68,13 @@ class PhysGrabberPatches
             }
 
             mainColor.r = customColour.r / 3.5f; // TODO: probably find a better way to fix this
-            mainColor.g = customColour.g / 3.5f;
+            mainColor.g = customColour.g / 4f;
             mainColor.b = customColour.b / 3.5f;
             mainColor.a = customColour.a;
             emissionColor.r = customColour.r / 3.5f;
-            emissionColor.g = customColour.g / 3.5f;
+            emissionColor.g = customColour.g / 4f;
             emissionColor.b = customColour.b / 3.5f;
-            emissionColor.a = 0.05f;
+            emissionColor.a = 0.1f;
 
             Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + "). colour state is " + currentColourState);
 
@@ -96,10 +96,23 @@ class PhysGrabberPatches
             Material gridMeshMaterial = physGrabPointVisualGridObjects[i].GetComponent<MeshRenderer>().material;
             if (gridMeshMaterial)
             {
-                Plugin.LogMessageIfDebug("Set grid mesh to: (" + gridColour.r + ", " + gridColour.g + ", " + gridColour.b + ", " + gridColour.a + ")");
+                Color col = new Color(
+                    gridColour.r / 3.5f,
+                    gridColour.g / 4f,
+                    gridColour.b / 3.5f,
+                    gridColour.a
+                );
+                gridMeshMaterial.color = col;
 
-                gridMeshMaterial.color = gridColour;
-                gridMeshMaterial.SetColor("_EmissionColor", gridColour);
+                Color emission = new Color(
+                    gridColour.r / 3.5f,
+                    gridColour.g / 4f,
+                    gridColour.b / 3.5f,
+                    0.1f
+                );
+                gridMeshMaterial.SetColor("_EmissionColor", emission);
+
+                Plugin.LogMessageIfDebug("Set grid mesh to: (" + gridMeshMaterial.color.r + ", " + gridMeshMaterial.color.g + ", " + gridMeshMaterial.color.b + ", " + gridMeshMaterial.color.a + ")");
             }
         }
     }

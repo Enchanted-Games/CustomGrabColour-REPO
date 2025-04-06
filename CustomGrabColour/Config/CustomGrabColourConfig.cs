@@ -15,7 +15,7 @@ class CustomGrabColourConfig
 
     public static readonly float DefaultOpacity = 0.2f;
     public static readonly float MaxOpacity = 0.5f;
-    public static readonly Color NeutralDefaultColour = new Color(1f, 0.58f, 0.19f, DefaultOpacity);
+    public static readonly Color NeutralDefaultColour = new Color(1f, 0.58f, 0.19f, 0.35f);
     public static readonly Color HealingDefaultColour = new Color(0.17f, 1f, 0.17f, DefaultOpacity);
     public static readonly Color RotatingDefaultColour = new Color(0.65f, 0.06f, 0.8f, DefaultOpacity);
 
