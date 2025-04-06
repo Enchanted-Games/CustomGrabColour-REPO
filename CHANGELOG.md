@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.0
+v2.1.0 comes with a few small bug fixes and changes including:
+- The default opacity for the neutral grab beam is now 0.35 to make it more visible with some skin colours
+- Further improved the accuracy of the colour previews
+- Fixed the grids when rotating an item being way too bright or becoming pure white with certain colours
+- Fixed the internal plugin version incorrectly being `1.1.0`
+- Fixed some spelling in the changelog and readme
+
 ## 2.0.1
 Forgot to update the changelog, this version is identical to 2.0.0
 
@@ -20,7 +28,7 @@ v2 comes with a bunch of fixes and two much requested new features!
    - Previously a lot of brighter colours would just appear white in-game, this has been fixed
 - The tip of the grab beam will now properly update
    - Previously it would stay as orange until you rotated something or healed a player
-- Other players grab beams will no longer reset back to orange until they grabbed something or healed a player when entering a new level
+- Other players grab beams will no longer reset back to orange until they rotated something or healed a player when entering a new level
 - Removed some error spam that could happen when other players changed their beam colour
   
 ## 1.1.0

@@ -5,7 +5,7 @@ Custom Grab Colour is a mod that lets you change the colour of your grab beam! C
 Current features of the mod:
 - Multiplayer compatible
    - Other players with the mod installed will be able to see your custom beam colour, and you will be able to see theirs!
-- Ability to customise the normal, rotating, and healing grab beams independently!
+- Ability to customise the neutral, rotating, and healing grab beams independently!
 - By default, the neutral grab beam will match your skin colour
    - This can be disabled or applied to other beam types through the config menu!
 - Configurable in-game or through supported mod managers such as Gale or r2modman

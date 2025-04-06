@@ -10,7 +10,7 @@ namespace CustomGrabColour
     {
         public const string PLUGIN_ID = "CustomGrabColour";
         public const string PLUGIN_NAME = "CustomGrabColour";
-        public const string PLUGIN_VERSION = "1.1.0";
+        public const string PLUGIN_VERSION = "2.1.0";
         public const string PLUGIN_GUID = "games.enchanted.CustomGrabColour";
     }
 
