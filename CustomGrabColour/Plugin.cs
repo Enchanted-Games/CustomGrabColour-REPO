@@ -1,73 +1,70 @@
 ﻿using BepInEx;
 using HarmonyLib;
 using BepInEx.Logging;
-using BepInEx.Configuration;
 using CustomGrabColour.Config;
 
 namespace CustomGrabColour
 {
     public static class PluginInfo
     {
-        public const string PLUGIN_ID = "CustomGrabColour";
-        public const string PLUGIN_NAME = "CustomGrabColour";
-        public const string PLUGIN_VERSION = "2.1.0";
-        public const string PLUGIN_GUID = "games.enchanted.CustomGrabColour";
+        public const string PluginID = "CustomGrabColour";
+        public const string PluginName = "CustomGrabColour";
+        public const string PluginVersion = "2.2.0";
+        public const string PluginGuid = "games.enchanted.CustomGrabColour";
     }
 
-    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(PluginInfo.PluginGuid, PluginInfo.PluginName, PluginInfo.PluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
         public static Plugin Instance { get; private set; }
 
-        public ManualLogSource PluginLogger;
-
-        public static ConfigEntry<bool> enableDebugLogs;
+        private ManualLogSource _pluginLogger;
 
         public static void LogMessageIfDebug(object message)
         {
             if(CustomGrabColourConfig.EnableDebugLogs.Value)
             {
-                Instance.PluginLogger.LogMessage("CustomGrabColour Debug: " + message);
+                Instance._pluginLogger.LogMessage("CustomGrabColour Debug: " + message);
             }
         }
         public static void LogMessage(object message)
         {
-            Instance.PluginLogger.LogMessage("CustomGrabColour: " + message);
+            Instance._pluginLogger.LogMessage("CustomGrabColour: " + message);
         }
         public static void LogError(object message)
         {
-            Instance.PluginLogger.LogError("CustomGrabColour Debug: " + message);
+            Instance._pluginLogger.LogError("CustomGrabColour Debug: " + message);
         }
         public static void LogErrorIfDebug(object message)
         {
             if (CustomGrabColourConfig.EnableDebugLogs.Value)
             {
-                Instance.PluginLogger.LogError("CustomGrabColour: " + message);
+                Instance._pluginLogger.LogError("CustomGrabColour: " + message);
             }
         }
         public static void LogWarning(object message)
         {
-            Instance.PluginLogger.LogWarning("CustomGrabColour: " + message);
+            Instance._pluginLogger.LogWarning("CustomGrabColour: " + message);
         }
 
         private void Awake()
         {
             Instance = this;
 
-            PluginLogger = Logger;
+            _pluginLogger = Logger;
 
-            PluginLogger.LogInfo($"Loading plugin {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
+            _pluginLogger.LogInfo($"Loading plugin {PluginInfo.PluginName}! ({PluginInfo.PluginGuid})");
 
             CustomGrabColourConfig.Init(Config);
 
             // Apply Harmony patches (if any exist)
-            Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
+            Harmony harmony = new Harmony(PluginInfo.PluginGuid);
             harmony.PatchAll();
 
             ConfigMenu.Init();
 
             // Plugin startup logic
-            PluginLogger.LogInfo($"Loading finished for {PluginInfo.PLUGIN_NAME}! ({PluginInfo.PLUGIN_GUID})");
+            _pluginLogger.LogInfo($"Loading finished for {PluginInfo.PluginName}! ({PluginInfo.PluginGuid})");
         }
     }
 }

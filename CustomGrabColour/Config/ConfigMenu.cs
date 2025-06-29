@@ -94,7 +94,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalNeutralColour.r = f;
-                    if (CustomGrabBeamColour.LocalNeutralColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalNeutralColour.MatchSkin) return;
                     Color col = _neutralGrabColourPreviewImage.color;
                     col.r = f;
                     _neutralGrabColourPreviewImage.color = col;
@@ -114,7 +114,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalNeutralColour.g = f;
-                    if (CustomGrabBeamColour.LocalNeutralColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalNeutralColour.MatchSkin) return;
                     Color col = _neutralGrabColourPreviewImage.color;
                     col.g = f;
                     _neutralGrabColourPreviewImage.color = col;
@@ -134,7 +134,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalNeutralColour.b = f;
-                    if (CustomGrabBeamColour.LocalNeutralColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalNeutralColour.MatchSkin) return;
                     Color col = _neutralGrabColourPreviewImage.color;
                     col.b = f;
                     _neutralGrabColourPreviewImage.color = col;
@@ -171,14 +171,14 @@ internal static class ConfigMenu
                 "Match Skin Colour",
                 (val) =>
                 {
-                    CustomGrabBeamColour.LocalNeutralColour.matchSkin = val;
+                    CustomGrabBeamColour.LocalNeutralColour.MatchSkin = val;
                     HandleNeutralSkinMatchChange();
                 },
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(5)),
                 "Yes",
                 "No",
-                CustomGrabBeamColour.LocalNeutralColour.matchSkin
+                CustomGrabBeamColour.LocalNeutralColour.MatchSkin
             );
             return matchSkinToggle.rectTransform;
         });
@@ -198,7 +198,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalRotatingColour.r = f;
-                    if (CustomGrabBeamColour.LocalRotatingColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalRotatingColour.MatchSkin) return;
                     Color col = _rotatingGrabColourPreviewImage.color;
                     col.r = f;
                     _rotatingGrabColourPreviewImage.color = col;
@@ -219,7 +219,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalRotatingColour.g = f;
-                    if (CustomGrabBeamColour.LocalRotatingColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalRotatingColour.MatchSkin) return;
                     Color col = _rotatingGrabColourPreviewImage.color;
                     col.g = f;
                     _rotatingGrabColourPreviewImage.color = col;
@@ -240,7 +240,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalRotatingColour.b = f;
-                    if (CustomGrabBeamColour.LocalRotatingColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalRotatingColour.MatchSkin) return;
                     Color col = _rotatingGrabColourPreviewImage.color;
                     col.b = f;
                     _rotatingGrabColourPreviewImage.color = col;
@@ -279,14 +279,14 @@ internal static class ConfigMenu
                 "Match Skin Colour",
                 (val) =>
                 {
-                    CustomGrabBeamColour.LocalRotatingColour.matchSkin = val;
+                    CustomGrabBeamColour.LocalRotatingColour.MatchSkin = val;
                     HandleRotatingSkinMatchChange();
                 },
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(11)),
                 "Yes",
                 "No",
-                CustomGrabBeamColour.LocalRotatingColour.matchSkin
+                CustomGrabBeamColour.LocalRotatingColour.MatchSkin
             );
             return matchSkinToggle.rectTransform;
         });
@@ -306,7 +306,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalHealingColour.r = f;
-                    if (CustomGrabBeamColour.LocalHealingColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalHealingColour.MatchSkin) return;
                     Color col = _healingGrabColourPreviewImage.color;
                     col.r = f;
                     _healingGrabColourPreviewImage.color = col;
@@ -327,7 +327,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalHealingColour.g = f;
-                    if (CustomGrabBeamColour.LocalHealingColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalHealingColour.MatchSkin) return;
                     Color col = _healingGrabColourPreviewImage.color;
                     col.g = f;
                     _healingGrabColourPreviewImage.color = col;
@@ -348,7 +348,7 @@ internal static class ConfigMenu
                 f =>
                 {
                     CustomGrabBeamColour.LocalHealingColour.b = f;
-                    if (CustomGrabBeamColour.LocalHealingColour.matchSkin) return;
+                    if (CustomGrabBeamColour.LocalHealingColour.MatchSkin) return;
                     Color col = _healingGrabColourPreviewImage.color;
                     col.b = f;
                     _healingGrabColourPreviewImage.color = col;
@@ -387,14 +387,14 @@ internal static class ConfigMenu
                 "Match Skin Colour",
                 (val) =>
                 {
-                    CustomGrabBeamColour.LocalHealingColour.matchSkin = val;
+                    CustomGrabBeamColour.LocalHealingColour.MatchSkin = val;
                     HandleHealingSkinMatchChange();
                 },
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(11)),
                 "Yes",
                 "No",
-                CustomGrabBeamColour.LocalHealingColour.matchSkin
+                CustomGrabBeamColour.LocalHealingColour.MatchSkin
             );
             return matchSkinToggle.rectTransform;
         });
@@ -425,7 +425,7 @@ internal static class ConfigMenu
         });
 
         // setup colour previews and open page
-        SetupPreviewRectangleColours(CustomGrabBeamColour.LocalNeutralColour.colour, CustomGrabBeamColour.LocalHealingColour.colour, CustomGrabBeamColour.LocalRotatingColour.colour);
+        SetupPreviewRectangleColours(CustomGrabBeamColour.LocalNeutralColour.Colour, CustomGrabBeamColour.LocalHealingColour.Colour, CustomGrabBeamColour.LocalRotatingColour.Colour);
         changeGrabColourPage.OpenPage(false);
     }
 
@@ -442,23 +442,23 @@ internal static class ConfigMenu
 
     private static void HandleNeutralSkinMatchChange()
     {
-        _neutralGrabColourPreviewImage.color = CustomGrabBeamColour.LocalNeutralColour.matchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalNeutralColour.colour;
+        _neutralGrabColourPreviewImage.color = CustomGrabBeamColour.LocalNeutralColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalNeutralColour.Colour;
         Color col = _neutralGrabColourPreviewImage.color;
-        col.a = CustomGrabBeamColour.LocalNeutralColour.colour.a;
+        col.a = CustomGrabBeamColour.LocalNeutralColour.Colour.a;
         _neutralGrabColourPreviewImage.color = col;
     }
     private static void HandleRotatingSkinMatchChange()
     {
-        _rotatingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalRotatingColour.matchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalRotatingColour.colour;
+        _rotatingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalRotatingColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalRotatingColour.Colour;
         Color col = _rotatingGrabColourPreviewImage.color;
-        col.a = CustomGrabBeamColour.LocalRotatingColour.colour.a;
+        col.a = CustomGrabBeamColour.LocalRotatingColour.Colour.a;
         _rotatingGrabColourPreviewImage.color = col;
     }
     private static void HandleHealingSkinMatchChange()
     {
-        _healingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalHealingColour.matchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalHealingColour.colour;
+        _healingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalHealingColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalHealingColour.Colour;
         Color col = _healingGrabColourPreviewImage.color;
-        col.a = CustomGrabBeamColour.LocalHealingColour.colour.a;
+        col.a = CustomGrabBeamColour.LocalHealingColour.Colour.a;
         _healingGrabColourPreviewImage.color = col;
     }
 

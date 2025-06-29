@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace CustomGrabColour.PlayerGrabBeam;
 
-public struct GrabBeamColourSettings(Color colour, bool matchSkin, GrabBeamColourSettings.BeamType beamType)
+public struct GrabBeamColourSettings(Color colour, bool matchSkin, GrabBeamColourSettings.BeamType currentBeamType)
 {
-    public Color colour = colour;
-    public bool matchSkin = matchSkin;
-    public BeamType beamType = beamType;
+    public Color Colour = colour;
+    public bool MatchSkin = matchSkin;
+    public readonly BeamType CurrentBeamType = currentBeamType;
 
     public static object[] ToRPCBuffer(GrabBeamColourSettings beamColour)
     {
-        Color colour = beamColour.colour;
-        return [colour.r, colour.g, colour.b, colour.a, beamColour.matchSkin, (byte)beamColour.beamType];
+        Color colour = beamColour.Colour;
+        return [colour.r, colour.g, colour.b, colour.a, beamColour.MatchSkin, (byte)beamColour.CurrentBeamType];
     }
 
     public static GrabBeamColourSettings FromRPCBuffer(object[] rpcBuffer)
@@ -34,23 +34,23 @@ public struct GrabBeamColourSettings(Color colour, bool matchSkin, GrabBeamColou
     }
     public float r
     {
-        get { return colour.r; }
-        set { colour.r = value; }
+        get => Colour.r;
+        set => Colour.r = value;
     }
     public float g
     {
-        get { return colour.g; }
-        set { colour.g = value; }
+        get => Colour.g;
+        set => Colour.g = value;
     }
     public float b
     {
-        get { return colour.b; }
-        set { colour.b = value; }
+        get => Colour.b;
+        set => Colour.b = value;
     }
     public float a
     {
-        get { return colour.a; }
-        set { colour.a = value; }
+        get => Colour.a;
+        set => Colour.a = value;
     }
 
     public enum BeamType : byte

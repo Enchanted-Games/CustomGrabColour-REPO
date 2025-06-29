@@ -120,13 +120,13 @@ public static class CustomGrabColourConfig
         Plugin.LogMessageIfDebug("Saving colour to config file: " + beamColourSettings);
         beamColourSettings.a = Mathf.Clamp(beamColourSettings.a, 0f, MaxOpacity);
 
-        bool colourConfigValueExists = BeamTypeToConfigEntries.TryGetValue(beamColourSettings.beamType, out BeamConfigEntries configEntries);
+        bool colourConfigValueExists = BeamTypeToConfigEntries.TryGetValue(beamColourSettings.CurrentBeamType, out BeamConfigEntries configEntries);
         if (!colourConfigValueExists)
         {
-            Plugin.LogWarning("Unable to save colour value for beam type: " + beamColourSettings.beamType);
+            Plugin.LogWarning("Unable to save colour value for beam type: " + beamColourSettings.CurrentBeamType);
         }
 
-        configEntries.BeamColour.Value = ConfigUtil.ColorToString(beamColourSettings.colour);
-        configEntries.MatchSkin.Value = beamColourSettings.matchSkin;
+        configEntries.BeamColour.Value = ConfigUtil.ColorToString(beamColourSettings.Colour);
+        configEntries.MatchSkin.Value = beamColourSettings.MatchSkin;
     }
 }

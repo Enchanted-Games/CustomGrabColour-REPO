@@ -48,7 +48,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     {
         set
         {
-            switch (value.beamType)
+            switch (value.CurrentBeamType)
             {
                 case BeamType.Neutral:
                     {
@@ -89,7 +89,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     {
         set
         {
-            switch (value.beamType)
+            switch (value.CurrentBeamType)
             {
                 case BeamType.Neutral:
                     {
@@ -155,7 +155,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     {
         newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
         LocalBeamColour = newColour;
-        UpdateBeamColour(newColour.beamType);
+        UpdateBeamColour(newColour.CurrentBeamType);
     }
     public static void UpdateBeamColourForAllBeams()
     {
@@ -182,13 +182,13 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     public void SetBeamColourRPC(object[] beamColourParts)
     {
         GrabBeamColourSettings newBeamColour = FromRPCBuffer(beamColourParts);
-        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + newBeamColour.r + ", g:" + newBeamColour.g + ", b:" + newBeamColour.b + ", a:" + newBeamColour.a + ", matchSkin:" + newBeamColour.matchSkin + ", beamType:" + newBeamColour.beamType);
+        Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + newBeamColour.r + ", g:" + newBeamColour.g + ", b:" + newBeamColour.b + ", a:" + newBeamColour.a + ", matchSkin:" + newBeamColour.MatchSkin + ", beamType:" + newBeamColour.CurrentBeamType);
 
         newBeamColour.a = Mathf.Clamp(newBeamColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
 
         CurrentBeamColour = newBeamColour;
 
-        if (newBeamColour.beamType != BeamType.Neutral) return;
+        if (newBeamColour.CurrentBeamType != BeamType.Neutral) return;
 
         // invoke ColorStates method to make sure the beam colour updates properly
         Type physGrabberType = player.physGrabber.GetType();
