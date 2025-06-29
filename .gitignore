@@ -1,0 +1,10 @@
+.vs/
+.idea/
+build/
+include/
+bin/
+obj/
+Releases/*
+Releases/*.*
+!Releases/build.bat
+/ExploitFixes.sln.DotSettings.user
