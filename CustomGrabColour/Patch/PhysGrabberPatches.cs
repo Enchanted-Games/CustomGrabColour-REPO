@@ -11,19 +11,21 @@ namespace CustomGrabColour.Patch;
 
 internal abstract class PhysGrabberPatches
 {
-    static AccessTools.FieldRef<PhysGrabber, List<GameObject>> physGrabPointVisualGridObjectsRef =
+    private static readonly AccessTools.FieldRef<PhysGrabber, List<GameObject>> PhysGrabPointVisualGridObjectsRef =
         AccessTools.FieldRefAccess<PhysGrabber, List<GameObject>>("physGrabPointVisualGridObjects");
+
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
     [HarmonyPatch(typeof(PhysGrabber))]
     [HarmonyPatch("ColorStateSetColor")]
     class PhysGrabber_ColorState_Patch
     {
-        static AccessTools.FieldRef<PhysGrabber, int> prevColorStateRef =
+        private static readonly AccessTools.FieldRef<PhysGrabber, int> PrevColorStateRef =
             AccessTools.FieldRefAccess<PhysGrabber, int>("prevColorState");
 
         static void Prefix(PhysGrabber __instance, ref Color mainColor, ref Color emissionColor)
         {
-            int currentColourState = prevColorStateRef(__instance);
+            int currentColourState = PrevColorStateRef(__instance);
 
             if (mainColor == null || emissionColor == null)
             {
@@ -31,7 +33,7 @@ internal abstract class PhysGrabberPatches
                 return;
             }
 
-            CustomGrabBeamColour grabBeamColour = __instance.playerAvatar.gameObject.GetComponent<CustomGrabBeamColour>();
+            CustomGrabBeamColour grabBeamColour = GetCurrentGrabBeamColour(__instance);
             if (!grabBeamColour)
             {
                 Plugin.LogMessageIfDebug("Player has no custom beam colour");
@@ -76,46 +78,50 @@ internal abstract class PhysGrabberPatches
             emissionColor.r = customColour.r / 3.5f;
             emissionColor.g = customColour.g / 4f;
             emissionColor.b = customColour.b / 3.5f;
-            emissionColor.a = 0.1f;
+            emissionColor.a = 0.3f;
 
             Plugin.LogMessageIfDebug("Set player beam to: (" + mainColor.r + ", " + mainColor.g + ", " + mainColor.b + ", " + mainColor.a + "). colour state is " + currentColourState);
 
             SetRotateBeamGridsColour(__instance, customColour);
-
-            return;
         }
     }
-    internal static void ResetRotateBeamGridsColour(PhysGrabber __instance)
+
+    private static CustomGrabBeamColour GetCurrentGrabBeamColour(PhysGrabber grabber)
+    {
+        return grabber.playerAvatar.gameObject.GetComponent<CustomGrabBeamColour>();
+    }
+
+    private static void ResetRotateBeamGridsColour(PhysGrabber __instance)
     {
         SetRotateBeamGridsColour(__instance, CustomGrabColourConfig.RotatingDefaultColour);
     }
-    internal static void SetRotateBeamGridsColour(PhysGrabber __instance, Color gridColour)
+
+    private static void SetRotateBeamGridsColour(PhysGrabber __instance, Color gridColour)
     {
-        List<GameObject> physGrabPointVisualGridObjects = physGrabPointVisualGridObjectsRef(__instance);
+        List<GameObject> physGrabPointVisualGridObjects = PhysGrabPointVisualGridObjectsRef(__instance);
 
-        for (int i = 0; i < physGrabPointVisualGridObjects.Count; i++)
+        foreach (var gridMeshObject in physGrabPointVisualGridObjects)
         {
-            Material gridMeshMaterial = physGrabPointVisualGridObjects[i].GetComponent<MeshRenderer>().material;
-            if (gridMeshMaterial)
-            {
-                Color col = new Color(
-                    gridColour.r / 3.5f,
-                    gridColour.g / 4f,
-                    gridColour.b / 3.5f,
-                    gridColour.a
-                );
-                gridMeshMaterial.color = col;
+            Material gridMeshMaterial = gridMeshObject.GetComponent<MeshRenderer>().material;
+            if (!gridMeshMaterial) continue;
+            
+            Color col = new Color(
+                gridColour.r / 3.5f,
+                gridColour.g / 4f,
+                gridColour.b / 3.5f,
+                gridColour.a
+            );
+            gridMeshMaterial.color = col;
 
-                Color emission = new Color(
-                    gridColour.r / 3.5f,
-                    gridColour.g / 4f,
-                    gridColour.b / 3.5f,
-                    0.1f
-                );
-                gridMeshMaterial.SetColor("_EmissionColor", emission);
+            Color emission = new Color(
+                gridColour.r / 3.5f,
+                gridColour.g / 4f,
+                gridColour.b / 3.5f,
+                0.3f
+            );
+            gridMeshMaterial.SetColor(EmissionColor, emission);
 
-                Plugin.LogMessageIfDebug("Set grid mesh to: (" + gridMeshMaterial.color.r + ", " + gridMeshMaterial.color.g + ", " + gridMeshMaterial.color.b + ", " + gridMeshMaterial.color.a + ")");
-            }
+            Plugin.LogMessageIfDebug("Set grid mesh to: (" + gridMeshMaterial.color.r + ", " + gridMeshMaterial.color.g + ", " + gridMeshMaterial.color.b + ", " + gridMeshMaterial.color.a + ")");
         }
     }
 
@@ -131,22 +137,14 @@ internal abstract class PhysGrabberPatches
     }
 
     [HarmonyPatch(typeof(PhysGrabber))]
-    [HarmonyPatch("PhysGrabBeamActivateRPC")]
-    class PhysGrabber_PhysGrabBeamActivateRPC_Patch
-    {
-        static void Postfix(PhysGrabber __instance)
-        {
-            // if player has custom beam colour update it when they activate their beam
-            GrabBeamUtil.TrySendBeamColourUpdateForAllBeams(__instance.playerAvatar);
-        }
-    }
-
-    [HarmonyPatch(typeof(PhysGrabber))]
     [HarmonyPatch("PhysGrabBeamActivate")]
     class PhysGrabber_PhysGrabBeamActivate_Patch
     {
         static async void Prefix(PhysGrabber __instance)
         {
+            CustomGrabBeamColour grabBeamColour = GetCurrentGrabBeamColour(__instance);
+            if(grabBeamColour.SentInitialColourUpdate) return;
+            
             bool grabBeamActive = true;
             try
             {
@@ -156,15 +154,16 @@ internal abstract class PhysGrabberPatches
             catch (Exception) {
                 Plugin.LogMessageIfDebug("Failed to get value of PhysGrabber physGrabBeamActive field");
             }
-
+    
             if (grabBeamActive) return;
-
+    
             await Task.Delay(100);
-
+    
             Plugin.LogMessageIfDebug("PhysGrabBeamActivate called");
-
+    
             // if player has custom beam colour update it when they activate their beam
             GrabBeamUtil.TrySendBeamColourUpdateForAllBeams(__instance.playerAvatar);
+            grabBeamColour.SentInitialColourUpdate = true;
         }
     }
 }

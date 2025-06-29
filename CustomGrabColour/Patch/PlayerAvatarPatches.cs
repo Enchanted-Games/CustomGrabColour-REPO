@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace CustomGrabColour.Patch;
 
-class PlayerAvatarPatches
+internal abstract class PlayerAvatarPatches
 {
     [HarmonyPatch(typeof(PlayerAvatar))]
     [HarmonyPatch("Awake")]

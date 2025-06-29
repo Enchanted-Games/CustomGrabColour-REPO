@@ -13,10 +13,11 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     internal static GrabBeamColourSettings LocalNeutralColour;
     internal static GrabBeamColourSettings LocalHealingColour;
     internal static GrabBeamColourSettings LocalRotatingColour;
-
+    
     internal GrabBeamColourSettings CurrentNeutralColour;
     internal GrabBeamColourSettings CurrentHealingColour;
     internal GrabBeamColourSettings CurrentRotatingColour;
+    internal bool SentInitialColourUpdate = false;
 
     public PlayerAvatar player;
     private Material _bodyMaterialInternal;
@@ -195,7 +196,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         try
         {
             FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
-            colorStatesField.SetValue(player.physGrabber, -1);
+            if (colorStatesField != null) colorStatesField.SetValue(player.physGrabber, -1);
         }
         catch (Exception e)
         {
@@ -205,7 +206,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         try
         {
             MethodInfo colorStatesInfo = physGrabberType.GetMethod("ColorStates", BindingFlags.Instance | BindingFlags.NonPublic);
-            colorStatesInfo.Invoke(player.physGrabber, null);
+            if (colorStatesInfo != null) colorStatesInfo.Invoke(player.physGrabber, null);
         }
         catch (Exception e)
         {
