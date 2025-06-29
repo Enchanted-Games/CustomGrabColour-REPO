@@ -25,7 +25,7 @@ namespace CustomGrabColour
 
         public static void LogMessageIfDebug(object message)
         {
-            if(CustomGrabColourConfig.enableDebugLogs.Value)
+            if(CustomGrabColourConfig.EnableDebugLogs.Value)
             {
                 Instance.PluginLogger.LogMessage("CustomGrabColour Debug: " + message);
             }
@@ -40,7 +40,7 @@ namespace CustomGrabColour
         }
         public static void LogErrorIfDebug(object message)
         {
-            if (CustomGrabColourConfig.enableDebugLogs.Value)
+            if (CustomGrabColourConfig.EnableDebugLogs.Value)
             {
                 Instance.PluginLogger.LogError("CustomGrabColour: " + message);
             }

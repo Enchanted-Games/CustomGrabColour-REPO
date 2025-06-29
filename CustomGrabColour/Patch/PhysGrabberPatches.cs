@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using CustomGrabColour.Config;
 using CustomGrabColour.PlayerGrabBeam;
 
 namespace CustomGrabColour.Patch;
@@ -41,15 +42,15 @@ internal abstract class PhysGrabberPatches
             GrabBeamColourSettings grabBeamSettings;
             if (currentColourState == 0)
             {
-                grabBeamSettings = grabBeamColour.currentNeutralColour;
+                grabBeamSettings = grabBeamColour.CurrentNeutralColour;
             }
             else if (currentColourState == 1)
             {
-                grabBeamSettings = grabBeamColour.currentHealingColour;
+                grabBeamSettings = grabBeamColour.CurrentHealingColour;
             }
             else if (currentColourState == 2)
             {
-                grabBeamSettings = grabBeamColour.currentRotatingColour;
+                grabBeamSettings = grabBeamColour.CurrentRotatingColour;
             }
             else
             {
