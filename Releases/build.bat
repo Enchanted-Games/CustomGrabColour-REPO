@@ -12,7 +12,7 @@ copy /y ..\README.md .\releaseFiles\
 copy /y ..\CHANGELOG.md .\releaseFiles\
 
 REM Copy the built dll to the releaseFiles directory
-xcopy /s /y /q ..\ExploitFixes\bin\Debug\netstandard2.1\ExploitFixes.dll .\releaseFiles\
+xcopy /s /y /q ..\CustomGrabColour\bin\Debug\netstandard2.1\CustomGrabColour.dll .\releaseFiles\
 
-REM Create a zip file named ExploitFixes.zip containing all files (except build.bat) in the current directory
-"C:\Program Files\7-Zip\7z.exe" a ExploitFixes.zip .\releaseFiles\* -x!build.bat -x!ExploitFixes.zip -x!\releaseFiles\
+REM Create a zip file named CustomGrabColour.zip containing all files (except build.bat) in the current directory
+"C:\Program Files\7-Zip\7z.exe" a CustomGrabColour.zip .\releaseFiles\* -x!build.bat -x!CustomGrabColour.zip -x!\releaseFiles\
