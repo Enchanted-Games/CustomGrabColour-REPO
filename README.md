@@ -1,17 +1,19 @@
-# Deprecated
-This mod is no longer being updated as all the exploits is fixes have already been fixed in the vanilla game. If more are found I may return to the mod, however for now, it is not being updated.
-
-# ExploitFix
-ExploitFix is a mod which aims to fix some exploits that negatively impact the gameplay experience. This mod aims to be as vanilla friendly as possible meaning it wont break any intentional game mechanics or other features
-
-This mod is host only, meaning it will only work if the host has it installed. Clients do not need the mod for it to function
+# Custom Grab Color
+Custom Grab Colour is a mod that lets you change the colour of your grab beam! Configurable either in-game or through supported mod managers and fully multiplayer compatible!
 
 ## Features
 Current features of the mod:
-- Free health from shop fixed
-    - You can no longer spam the healthpack while leaving the shop to get free health
-- Infinite gun ammo fixed
-    - Charging a gun/shotgun/tranq gun for a split second with a recharge drone will no longer give it infinite ammo
+- Multiplayer compatible
+   - Other players with the mod installed will be able to see your custom beam colour, and you will be able to see theirs!
+- Ability to customise the neutral, rotating, and healing grab beams independently!
+- By default, the neutral grab beam will match your skin colour
+   - This can be disabled or applied to other beam types through the config menu!
+- Configurable in-game or through supported mod managers such as Gale or r2modman
+   - To configure in-game, make sure you are loaded into a game, click ESC and there should be a new button in the top left
+   - There is also a new button in the 'change colour' menu that lets you customise the grab beam colour
+
+## Notes
+It is recommended that all players have the mod enabled, otherwise you may run into issues with grab beams being invisible or having incorrect colours.
 
 ## Report issues or request features
-Make sure to report any issues you encounter to the [GitHub issue tracker](https://github.com/Enchanted-Games/ExploitFix-REPO/issues) and ill do my best to fix them. Also feel free to request any ideas for the mod here!
+Make sure to report any issues you encounter to the [GitHub issue tracker](https://github.com/Enchanted-Games/CustomGrabColour-REPO/issues) and ill do my best to fix them. Also feel free to request any ideas for the mod here!
