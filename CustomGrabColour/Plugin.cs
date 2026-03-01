@@ -9,7 +9,7 @@ namespace CustomGrabColour
     {
         public const string PluginID = "CustomGrabColour";
         public const string PluginName = "CustomGrabColour";
-        public const string PluginVersion = "2.2.0";
+        public const string PluginVersion = "2.3.0";
         public const string PluginGuid = "games.enchanted.CustomGrabColour";
     }
 

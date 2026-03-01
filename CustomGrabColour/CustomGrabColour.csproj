@@ -6,7 +6,7 @@
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <Authors>Enchanted_Games</Authors>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 

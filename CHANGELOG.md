@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0
+- Updated to R.E.P.O v0.3.0 Monster Update (late i know, but the mod v2.2.0 worked fine mostly)
+- Added the ability to customise the climbing beam colour when using the tumble climb upgrade
+
 ## 2.2.0
 v2.2.0 includes a few bug fixes, small changes, and networking improvements
 - Updated to R.E.P.O v0.2.0 Museum Update
