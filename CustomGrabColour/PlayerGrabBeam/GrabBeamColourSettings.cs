@@ -58,5 +58,6 @@ public struct GrabBeamColourSettings(Color colour, bool matchSkin, GrabBeamColou
         Neutral = 0,
         Heal,
         Rotate,
+        Climb,
     }
 }

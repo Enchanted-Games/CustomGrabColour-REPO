@@ -20,10 +20,12 @@ public static class CustomGrabColourConfig
     public static readonly Color NeutralDefaultColour = new(1f, 0.58f, 0.19f, 0.35f);
     public static readonly Color HealingDefaultColour = new(0.17f, 1f, 0.17f, DefaultOpacity);
     public static readonly Color RotatingDefaultColour = new(0.65f, 0.06f, 0.8f, DefaultOpacity);
+    public static readonly Color ClimbingDefaultColour = new(0.0f, 0.7f, 1f, DefaultOpacity);
 
     public static BeamConfigEntries NeutralGrabBeam;
     public static BeamConfigEntries HealingGrabBeam;
     public static BeamConfigEntries RotatingGrabBeam;
+    public static BeamConfigEntries ClimbingGrabBeam;
 
     public static ConfigEntry<bool> EnableDebugLogs;
     public static ConfigEntry<bool> DebugAddButtonToMainMenu;
@@ -78,6 +80,22 @@ public static class CustomGrabColourConfig
         );
         HealingGrabBeam = new BeamConfigEntries(healingGrabBeamColour, healingGrabBeamMatchSkin);
         BeamTypeToConfigEntries.Add(GrabBeamColourSettings.BeamType.Heal, HealingGrabBeam);
+        
+        
+        ConfigEntry<string> climbingGrabBeamColour = config.Bind(
+            "General",
+            "ClimbingGrabBeamColour",
+            ConfigUtil.ColorToString(ClimbingDefaultColour),
+            "The colour of the grab beam when climbing with the tumble climb upgrade." + ColourNotes
+        );
+        ConfigEntry<bool> climbingGrabBeamMatchSkin = config.Bind(
+            "General",
+            "ClimbingGrabBeamMatchSkin",
+            false,
+            "Should the climbing grab beam match the colour of your skin?"
+        );
+        ClimbingGrabBeam = new BeamConfigEntries(climbingGrabBeamColour, climbingGrabBeamMatchSkin);
+        BeamTypeToConfigEntries.Add(GrabBeamColourSettings.BeamType.Climb, ClimbingGrabBeam);
 
 
         EnableDebugLogs = config.Bind(
@@ -113,6 +131,11 @@ public static class CustomGrabColourConfig
         Color healingColourFromConfig = ConfigUtil.StringToColor(HealingGrabBeam.BeamColour.Value, HealingDefaultColour);
         healingColourFromConfig.a = Mathf.Clamp(healingColourFromConfig.a, 0f, MaxOpacity);
         CustomGrabBeamColour.LocalHealingColour = new GrabBeamColourSettings(healingColourFromConfig, HealingGrabBeam.MatchSkin.Value, GrabBeamColourSettings.BeamType.Heal);
+
+        // load climbing colour
+        Color climbingColourFromConfig = ConfigUtil.StringToColor(ClimbingGrabBeam.BeamColour.Value, ClimbingDefaultColour);
+        climbingColourFromConfig.a = Mathf.Clamp(climbingColourFromConfig.a, 0f, MaxOpacity);
+        CustomGrabBeamColour.LocalClimbingColour = new GrabBeamColourSettings(climbingColourFromConfig, ClimbingGrabBeam.MatchSkin.Value, GrabBeamColourSettings.BeamType.Climb);
     }
 
     public static void SaveColour(GrabBeamColourSettings beamColourSettings)

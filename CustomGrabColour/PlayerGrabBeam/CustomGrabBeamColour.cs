@@ -13,10 +13,12 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     internal static GrabBeamColourSettings LocalNeutralColour;
     internal static GrabBeamColourSettings LocalHealingColour;
     internal static GrabBeamColourSettings LocalRotatingColour;
+    internal static GrabBeamColourSettings LocalClimbingColour;
     
     internal GrabBeamColourSettings CurrentNeutralColour;
     internal GrabBeamColourSettings CurrentHealingColour;
     internal GrabBeamColourSettings CurrentRotatingColour;
+    internal GrabBeamColourSettings CurrentClimbingColour;
     internal bool SentInitialColourUpdate = false;
 
     public PlayerAvatar player;
@@ -51,17 +53,21 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
             switch (value.CurrentBeamType)
             {
                 case BeamType.Neutral:
-                    {
-                        LocalNeutralColour = value; break;
-                    }
+                {
+                    LocalNeutralColour = value; break;
+                }
                 case BeamType.Heal:
-                    {
-                        LocalHealingColour = value; break;
-                    }
+                {
+                    LocalHealingColour = value; break;
+                }
                 case BeamType.Rotate:
-                    {
-                        LocalRotatingColour = value; break;
-                    }
+                {
+                    LocalRotatingColour = value; break;
+                }
+                case BeamType.Climb:
+                {
+                    LocalClimbingColour = value; break;
+                }
             }
         }
         get => throw new NotImplementedException("Tried to get field LocalBeamColour, call GetLocalSettingsForBeamType instead");
@@ -71,17 +77,21 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         switch (beamType)
         {
             case BeamType.Heal:
-                {
-                    return LocalHealingColour;
-                }
+            {
+                return LocalHealingColour;
+            }
             case BeamType.Rotate:
-                {
-                    return LocalRotatingColour;
-                }
+            {
+                return LocalRotatingColour;
+            }
+            case BeamType.Climb:
+            {
+                return LocalClimbingColour;
+            }
             default:
-                {
-                    return LocalNeutralColour;
-                }
+            {
+                return LocalNeutralColour;
+            }
         }
     }
 
@@ -92,17 +102,21 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
             switch (value.CurrentBeamType)
             {
                 case BeamType.Neutral:
-                    {
-                        CurrentNeutralColour = value; break;
-                    }
+                {
+                    CurrentNeutralColour = value; break;
+                }
                 case BeamType.Heal:
-                    {
-                        CurrentHealingColour = value; break;
-                    }
+                {
+                    CurrentHealingColour = value; break;
+                }
                 case BeamType.Rotate:
-                    {
-                        CurrentRotatingColour = value; break;
-                    }
+                {
+                    CurrentRotatingColour = value; break;
+                }
+                case BeamType.Climb:
+                {
+                    CurrentClimbingColour = value; break;
+                }
             }
         }
         get => throw new NotImplementedException("Tried to get field CurrentBeamColour, call GetSettingsForBeamType instead");
@@ -112,17 +126,21 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         switch (beamType)
         {
             case BeamType.Heal:
-                {
-                    return CurrentNeutralColour;
-                }
+            {
+                return CurrentNeutralColour;
+            }
             case BeamType.Rotate:
-                {
-                    return CurrentHealingColour;
-                }
+            {
+                return CurrentHealingColour;
+            }
+            case BeamType.Climb:
+            {
+                return CurrentClimbingColour;
+            }
             default:
-                {
-                    return CurrentRotatingColour;
-                }
+            {
+                return CurrentRotatingColour;
+            }
         }
     }
 
@@ -139,15 +157,17 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     public static void SaveLocalColoursToConfig()
     {
         CustomGrabColourConfig.SaveColour(LocalNeutralColour);
-        CustomGrabColourConfig.SaveColour(LocalHealingColour);
         CustomGrabColourConfig.SaveColour(LocalRotatingColour);
+        CustomGrabColourConfig.SaveColour(LocalHealingColour);
+        CustomGrabColourConfig.SaveColour(LocalClimbingColour);
     }
 
     public static void ResetBeamColours()
     {
         LocalNeutralColour = new GrabBeamColourSettings(CustomGrabColourConfig.NeutralDefaultColour, (bool)CustomGrabColourConfig.NeutralGrabBeam.MatchSkin.DefaultValue, BeamType.Neutral);
-        LocalHealingColour = new GrabBeamColourSettings(CustomGrabColourConfig.HealingDefaultColour, (bool)CustomGrabColourConfig.HealingGrabBeam.MatchSkin.DefaultValue, BeamType.Heal);
         LocalRotatingColour = new GrabBeamColourSettings(CustomGrabColourConfig.RotatingDefaultColour, (bool)CustomGrabColourConfig.RotatingGrabBeam.MatchSkin.DefaultValue, BeamType.Rotate);
+        LocalHealingColour = new GrabBeamColourSettings(CustomGrabColourConfig.HealingDefaultColour, (bool)CustomGrabColourConfig.HealingGrabBeam.MatchSkin.DefaultValue, BeamType.Heal);
+        LocalClimbingColour = new GrabBeamColourSettings(CustomGrabColourConfig.ClimbingDefaultColour, (bool)CustomGrabColourConfig.ClimbingGrabBeam.MatchSkin.DefaultValue, BeamType.Climb);
         UpdateBeamColourForAllBeams();
     }
 

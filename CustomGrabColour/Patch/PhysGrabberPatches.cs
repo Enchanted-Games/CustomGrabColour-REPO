@@ -54,6 +54,10 @@ internal abstract class PhysGrabberPatches
             {
                 grabBeamSettings = grabBeamColour.CurrentRotatingColour;
             }
+            else if (currentColourState == 3)
+            {
+                grabBeamSettings = grabBeamColour.CurrentClimbingColour;
+            }
             else
             {
                 ResetRotateBeamGridsColour(__instance);

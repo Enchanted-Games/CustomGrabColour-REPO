@@ -18,6 +18,9 @@ internal static class ConfigMenu
     private static Image _healingGrabColourPreviewImage;
     private static GameObject _healingGrabColourPreviewParent;
 
+    private static Image _climbingGrabColourPreviewImage;
+    private static GameObject _climbingGrabColourPreviewParent;
+
     private const float HorizontalPos = 70f;
 
     public static void Init()
@@ -51,31 +54,47 @@ internal static class ConfigMenu
         // colour previews
         changeGrabColourPage.AddElement(parent =>
         {
+            var row1Y = GetVerticalPos(0);
+            var row2Y = GetVerticalPos(1);
+            const float col1X = 455f;
+            const float col2X = 605f;
+            const float labelYOffset = 60f;
+            var labelScale = new Vector2(0.5f, 0.5f);
+            
             // neutral
-            float neutralYPos = GetVerticalPos(0);
-            var neutralLabel = MenuAPI.CreateREPOLabel("Neutral Colour Preview", parent, new Vector2(452f, neutralYPos - 60));
-            neutralLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            var neutralLabel = MenuAPI.CreateREPOLabel("Neutral Colour Preview", parent, new Vector2(col1X, row1Y - labelYOffset));
+            neutralLabel.transform.localScale = labelScale;
+            neutralLabel.transform.SetPositionAndRotation(new Vector3(col1X - (neutralLabel.labelTMP.GetPreferredWidth() / 4), neutralLabel.transform.position.y, neutralLabel.transform.position.z), neutralLabel.transform.rotation);
             if (!_neutralGrabColourPreviewParent)
             {
-                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, neutralYPos), out _neutralGrabColourPreviewParent, out _neutralGrabColourPreviewImage);
+                CreateBeamPreviewColourRectangle(parent, new Vector2(col1X, row1Y), out _neutralGrabColourPreviewParent, out _neutralGrabColourPreviewImage);
             }
 
             // rotating
-            float rotatingYPos = GetVerticalPos(1);
-            var rotatingLabel = MenuAPI.CreateREPOLabel("Rotating Colour Preview", parent, new Vector2(452f, rotatingYPos - 60));
-            rotatingLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            var rotatingLabel = MenuAPI.CreateREPOLabel("Rotating Colour Preview", parent, new Vector2(col1X, row2Y - labelYOffset));
+            rotatingLabel.transform.localScale = labelScale;
+            rotatingLabel.transform.SetPositionAndRotation(new Vector3(col1X - (rotatingLabel.labelTMP.GetPreferredWidth() / 4), rotatingLabel.transform.position.y, rotatingLabel.transform.position.z), rotatingLabel.transform.rotation);
             if (!_rotatingGrabColourPreviewParent)
             {
-                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, rotatingYPos), out _rotatingGrabColourPreviewParent, out _rotatingGrabColourPreviewImage);
+                CreateBeamPreviewColourRectangle(parent, new Vector2(col1X, row2Y), out _rotatingGrabColourPreviewParent, out _rotatingGrabColourPreviewImage);
             }
 
             // healing
-            float healingYPos = GetVerticalPos(2);
-            var healingLabel = MenuAPI.CreateREPOLabel("Healing Colour Preview", parent, new Vector2(452f, healingYPos - 60));
-            healingLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            var healingLabel = MenuAPI.CreateREPOLabel("Healing Colour Preview", parent, new Vector2(col2X, row1Y - labelYOffset));
+            healingLabel.transform.localScale = labelScale;
+            healingLabel.transform.SetPositionAndRotation(new Vector3(col2X - (healingLabel.labelTMP.GetPreferredWidth() / 4), healingLabel.transform.position.y, healingLabel.transform.position.z), healingLabel.transform.rotation);
             if (!_healingGrabColourPreviewParent)
             {
-                CreateBeamPreviewColourRectangle(parent, new Vector2(515f, healingYPos), out _healingGrabColourPreviewParent, out _healingGrabColourPreviewImage);
+                CreateBeamPreviewColourRectangle(parent, new Vector2(col2X, row1Y), out _healingGrabColourPreviewParent, out _healingGrabColourPreviewImage);
+            }
+
+            // climbing
+            var climbingLabel = MenuAPI.CreateREPOLabel("Climbing Colour Preview", parent, new Vector2(col2X, row2Y - labelYOffset));
+            climbingLabel.transform.localScale = labelScale;
+            climbingLabel.transform.SetPositionAndRotation(new Vector3(col2X - (climbingLabel.labelTMP.GetPreferredWidth() / 4), climbingLabel.transform.position.y, climbingLabel.transform.position.z), climbingLabel.transform.rotation);
+            if (!_climbingGrabColourPreviewParent)
+            {
+                CreateBeamPreviewColourRectangle(parent, new Vector2(col2X, row2Y), out _climbingGrabColourPreviewParent, out _climbingGrabColourPreviewImage);
             }
         });
 
@@ -398,6 +417,115 @@ internal static class ConfigMenu
             );
             return matchSkinToggle.rectTransform;
         });
+        
+        
+        // climbing grab beam colours
+        changeGrabColourPage.AddElementToScrollView(parent =>
+        {
+            var beamLabel = MenuAPI.CreateREPOLabel("Climbing Beam Colour", parent, new Vector2(0, GetVerticalOffsetForScrollChildren(6)));
+            beamLabel.transform.localScale = new Vector2(0.5f, 0.5f);
+            return beamLabel.rectTransform;
+        });
+        changeGrabColourPage.AddElementToScrollView(parent =>
+        {
+            var redSlider = CreateColourSlider(
+                "Red",
+                "",
+                f =>
+                {
+                    CustomGrabBeamColour.LocalClimbingColour.r = f;
+                    if (CustomGrabBeamColour.LocalClimbingColour.MatchSkin) return;
+                    Color col = _climbingGrabColourPreviewImage.color;
+                    col.r = f;
+                    _climbingGrabColourPreviewImage.color = col;
+                    HandleClimbingSkinMatchChange();
+                },
+                CustomGrabBeamColour.LocalClimbingColour.r,
+                1,
+                parent,
+                new Vector2(0, GetVerticalOffsetForScrollChildren(7))
+            );
+            return redSlider.rectTransform;
+        });
+        changeGrabColourPage.AddElementToScrollView(parent =>
+        {
+            var greenSlider = CreateColourSlider(
+                "Green",
+                "",
+                f =>
+                {
+                    CustomGrabBeamColour.LocalClimbingColour.g = f;
+                    if (CustomGrabBeamColour.LocalClimbingColour.MatchSkin) return;
+                    Color col = _climbingGrabColourPreviewImage.color;
+                    col.g = f;
+                    _climbingGrabColourPreviewImage.color = col;
+                    HandleClimbingSkinMatchChange();
+                },
+                CustomGrabBeamColour.LocalClimbingColour.g,
+                1,
+                parent,
+                new Vector2(0, GetVerticalOffsetForScrollChildren(8))
+            );
+            return greenSlider.rectTransform;
+        });
+        changeGrabColourPage.AddElementToScrollView(parent =>
+        {
+            var blueSlider = CreateColourSlider(
+                "Blue",
+                "",
+                f =>
+                {
+                    CustomGrabBeamColour.LocalClimbingColour.b = f;
+                    if (CustomGrabBeamColour.LocalClimbingColour.MatchSkin) return;
+                    Color col = _climbingGrabColourPreviewImage.color;
+                    col.b = f;
+                    _climbingGrabColourPreviewImage.color = col;
+                    HandleClimbingSkinMatchChange();
+                },
+                CustomGrabBeamColour.LocalClimbingColour.b,
+                1,
+                parent,
+                new Vector2(0, GetVerticalOffsetForScrollChildren(9))
+            );
+            return blueSlider.rectTransform;
+        });
+        changeGrabColourPage.AddElementToScrollView(parent =>
+        {
+            var opacitySlider = CreateColourSlider(
+                "Opacity",
+                "",
+                f =>
+                {
+                    CustomGrabBeamColour.LocalClimbingColour.a = f;
+                    Color col = _climbingGrabColourPreviewImage.color;
+                    col.a = f;
+                    _climbingGrabColourPreviewImage.color = col;
+                    HandleClimbingSkinMatchChange();
+                },
+                CustomGrabBeamColour.LocalClimbingColour.a,
+                CustomGrabColourConfig.MaxOpacity,
+                parent,
+                new Vector2(0, GetVerticalOffsetForScrollChildren(10))
+            );
+            return opacitySlider.rectTransform;
+        });
+        changeGrabColourPage.AddElementToScrollView(parent =>
+        {
+            var matchSkinToggle = MenuAPI.CreateREPOToggle(
+                "Match Skin Colour",
+                (val) =>
+                {
+                    CustomGrabBeamColour.LocalClimbingColour.MatchSkin = val;
+                    HandleClimbingSkinMatchChange();
+                },
+                parent,
+                new Vector2(0, GetVerticalOffsetForScrollChildren(11)),
+                "Yes",
+                "No",
+                CustomGrabBeamColour.LocalClimbingColour.MatchSkin
+            );
+            return matchSkinToggle.rectTransform;
+        });
 
         // close and reset buttons
         changeGrabColourPage.AddElement(parent =>
@@ -425,16 +553,17 @@ internal static class ConfigMenu
         });
 
         // setup colour previews and open page
-        SetupPreviewRectangleColours(CustomGrabBeamColour.LocalNeutralColour.Colour, CustomGrabBeamColour.LocalHealingColour.Colour, CustomGrabBeamColour.LocalRotatingColour.Colour);
+        SetupPreviewRectangleColours(CustomGrabBeamColour.LocalNeutralColour.Colour, CustomGrabBeamColour.LocalRotatingColour.Colour, CustomGrabBeamColour.LocalHealingColour.Colour, CustomGrabBeamColour.LocalClimbingColour.Colour);
         changeGrabColourPage.OpenPage(false);
     }
 
 
-    private static void SetupPreviewRectangleColours(Color neutralColour, Color healingColour, Color rotatingColour)
+    private static void SetupPreviewRectangleColours(Color neutralColour, Color rotatingColour, Color healingColour, Color climbingColour)
     {
         _neutralGrabColourPreviewImage.color = neutralColour;
-        _healingGrabColourPreviewImage.color = healingColour;
         _rotatingGrabColourPreviewImage.color = rotatingColour;
+        _healingGrabColourPreviewImage.color = healingColour;
+        _climbingGrabColourPreviewImage.color = climbingColour;
         HandleNeutralSkinMatchChange();
         HandleRotatingSkinMatchChange();
         HandleHealingSkinMatchChange();
@@ -460,6 +589,13 @@ internal static class ConfigMenu
         Color col = _healingGrabColourPreviewImage.color;
         col.a = CustomGrabBeamColour.LocalHealingColour.Colour.a;
         _healingGrabColourPreviewImage.color = col;
+    }
+    private static void HandleClimbingSkinMatchChange()
+    {
+        _climbingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalClimbingColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalClimbingColour.Colour;
+        Color col = _climbingGrabColourPreviewImage.color;
+        col.a = CustomGrabBeamColour.LocalClimbingColour.Colour.a;
+        _climbingGrabColourPreviewImage.color = col;
     }
 
     private static void CreateBeamPreviewColourRectangle(Transform parent, Vector2 position, out GameObject colourPreviewParent, out Image colourPreviewImage)
@@ -508,6 +644,6 @@ internal static class ConfigMenu
         int index = -Math.Abs(0 - offset);
         index += 3;
         // first number is offset from bottom, second number is spacing between elements
-        return -12f + (110 * index);
+        return -160f + (150 * index);
     }
 }
