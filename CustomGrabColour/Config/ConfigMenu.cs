@@ -183,7 +183,7 @@ internal static class ConfigMenu
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
             var matchSkinToggle = MenuAPI.CreateREPOToggle(
-                "Match Skin Colour",
+                "Match Grabber Cosmetic",
                 (val) =>
                 {
                     CustomGrabBeamColour.LocalNeutralColour.MatchSkin = val;
@@ -287,7 +287,7 @@ internal static class ConfigMenu
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
             var matchSkinToggle = MenuAPI.CreateREPOToggle(
-                "Match Skin Colour",
+                "Match Grabber Cosmetic",
                 (val) =>
                 {
                     CustomGrabBeamColour.LocalRotatingColour.MatchSkin = val;
@@ -391,7 +391,7 @@ internal static class ConfigMenu
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
             var matchSkinToggle = MenuAPI.CreateREPOToggle(
-                "Match Skin Colour",
+                "Match Grabber Cosmetic",
                 (val) =>
                 {
                     CustomGrabBeamColour.LocalHealingColour.MatchSkin = val;
@@ -496,7 +496,7 @@ internal static class ConfigMenu
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
             var matchSkinToggle = MenuAPI.CreateREPOToggle(
-                "Match Skin Colour",
+                "Match Grabber Cosmetic",
                 (val) =>
                 {
                     CustomGrabBeamColour.LocalClimbingColour.MatchSkin = val;

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0
+- Updated to R.E.P.O v0.4.0 Cosmetic Update
+- Colour opacity is now limited between 0.1 - 0.7 (was 0 - 0.5 before)
+- The 'Match Skin Colour' setting has been renamed to 'Match Grabber Cosmetic' as it now uses the colour of your grabber cosmetic
+- Fixed an issue that caused players without the mod to have invisible grab beams for players with the mod
+
 ## 2.3.0
 - Updated to R.E.P.O v0.3.0 Monster Update (late i know, but the mod v2.2.0 worked fine mostly)
 - Added the ability to customise the climbing beam colour when using the tumble climb upgrade
