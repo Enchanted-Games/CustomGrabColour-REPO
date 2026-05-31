@@ -3,26 +3,15 @@ using HarmonyLib;
 
 namespace CustomGrabColour.Patch;
 
+[HarmonyPatch(typeof(PlayerAvatar))]
 internal abstract class PlayerAvatarPatches
 {
-    [HarmonyPatch(typeof(PlayerAvatar))]
-    [HarmonyPatch("Awake")]
-    class PlayerAvatar_Awake_Patch
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(PlayerAvatar.Awake))]
+    public static void AwakePostfix(PlayerAvatar __instance)
     {
-        public static void Postfix(PlayerAvatar __instance)
-        {
-            // add custom grab beam colour component
-            __instance.gameObject.AddComponent<CustomGrabBeamColour>();
-        }
-    }
-
-    [HarmonyPatch(typeof(PlayerAvatar))]
-    [HarmonyPatch("PlayerAvatarSetColor")]
-    class PlayerAvatar_PlayerAvatarSetColor_Patch
-    {
-        public static void Postfix(PlayerAvatar __instance, int colorIndex)
-        {
-            GrabBeamUtil.TrySendBeamColourUpdateForAllBeams(__instance);
-        }
+        // add grab beam colour component if not already present
+        if(__instance.GetComponent<CustomGrabBeamColour>() != null) return;
+        __instance.gameObject.AddComponent<CustomGrabBeamColour>();
     }
 }

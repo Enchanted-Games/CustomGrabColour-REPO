@@ -571,28 +571,28 @@ internal static class ConfigMenu
 
     private static void HandleNeutralSkinMatchChange()
     {
-        _neutralGrabColourPreviewImage.color = CustomGrabBeamColour.LocalNeutralColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalNeutralColour.Colour;
+        _neutralGrabColourPreviewImage.color = CustomGrabBeamColour.LocalNeutralColour.MatchSkin ? CustomGrabBeamColour.GetLocalGrabberCosmeticColour(CustomGrabColourConfig.NeutralDefaultColour) : CustomGrabBeamColour.LocalNeutralColour.Colour;
         Color col = _neutralGrabColourPreviewImage.color;
         col.a = CustomGrabBeamColour.LocalNeutralColour.Colour.a;
         _neutralGrabColourPreviewImage.color = col;
     }
     private static void HandleRotatingSkinMatchChange()
     {
-        _rotatingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalRotatingColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalRotatingColour.Colour;
+        _rotatingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalRotatingColour.MatchSkin ? CustomGrabBeamColour.GetLocalGrabberCosmeticColour(CustomGrabColourConfig.RotatingDefaultColour) : CustomGrabBeamColour.LocalRotatingColour.Colour;
         Color col = _rotatingGrabColourPreviewImage.color;
         col.a = CustomGrabBeamColour.LocalRotatingColour.Colour.a;
         _rotatingGrabColourPreviewImage.color = col;
     }
     private static void HandleHealingSkinMatchChange()
     {
-        _healingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalHealingColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalHealingColour.Colour;
+        _healingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalHealingColour.MatchSkin ? CustomGrabBeamColour.GetLocalGrabberCosmeticColour(CustomGrabColourConfig.HealingDefaultColour) : CustomGrabBeamColour.LocalHealingColour.Colour;
         Color col = _healingGrabColourPreviewImage.color;
         col.a = CustomGrabBeamColour.LocalHealingColour.Colour.a;
         _healingGrabColourPreviewImage.color = col;
     }
     private static void HandleClimbingSkinMatchChange()
     {
-        _climbingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalClimbingColour.MatchSkin ? CustomGrabBeamColour.GetLocalBodyColour(Color.black) : CustomGrabBeamColour.LocalClimbingColour.Colour;
+        _climbingGrabColourPreviewImage.color = CustomGrabBeamColour.LocalClimbingColour.MatchSkin ? CustomGrabBeamColour.GetLocalGrabberCosmeticColour(CustomGrabColourConfig.ClimbingDefaultColour) : CustomGrabBeamColour.LocalClimbingColour.Colour;
         Color col = _climbingGrabColourPreviewImage.color;
         col.a = CustomGrabBeamColour.LocalClimbingColour.Colour.a;
         _climbingGrabColourPreviewImage.color = col;

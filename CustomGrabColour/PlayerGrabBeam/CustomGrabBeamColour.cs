@@ -8,7 +8,7 @@ using static CustomGrabColour.PlayerGrabBeam.GrabBeamColourSettings;
 namespace CustomGrabColour.PlayerGrabBeam;
 
 // handles local and other players grab beam colours
-public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
+public class  CustomGrabBeamColour : MonoBehaviour, IPunObservable
 {
     internal static GrabBeamColourSettings LocalNeutralColour;
     internal static GrabBeamColourSettings LocalHealingColour;
@@ -22,29 +22,6 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
     internal bool SentInitialColourUpdate = false;
 
     public PlayerAvatar player;
-    private Material _bodyMaterialInternal;
-    public Material BodyMaterial
-    {
-        set => _bodyMaterialInternal = value;
-        get
-        {
-            if (_bodyMaterialInternal == null)
-            {
-                try
-                {
-                    FieldInfo grabBeamActiveField = player.playerHealth.GetType().GetField("bodyMaterial", BindingFlags.Instance | BindingFlags.NonPublic);
-                    _bodyMaterialInternal = (Material)grabBeamActiveField.GetValue(player.playerHealth);
-                }
-                catch (Exception)
-                {
-                    Plugin.LogMessageIfDebug("Failed to get value of PlayerHealth bodyMaterial field");
-                    return null;
-                }
-            }
-
-            return _bodyMaterialInternal;
-        }
-    }
 
     public static GrabBeamColourSettings LocalBeamColour
     {
@@ -211,11 +188,11 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
         if (newBeamColour.CurrentBeamType != BeamType.Neutral) return;
 
         // invoke ColorStates method to make sure the beam colour updates properly
-        Type physGrabberType = player.physGrabber.GetType();
+        Type physGrabberType = typeof(PhysGrabber);
 
         try
         {
-            FieldInfo colorStatesField = physGrabberType.GetField("prevColorState", BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo colorStatesField = physGrabberType.GetField(nameof(PhysGrabber.prevColorState), BindingFlags.Instance | BindingFlags.NonPublic);
             if (colorStatesField != null) colorStatesField.SetValue(player.physGrabber, -1);
         }
         catch (Exception e)
@@ -225,7 +202,7 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
         try
         {
-            MethodInfo colorStatesInfo = physGrabberType.GetMethod("ColorStates", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo colorStatesInfo = physGrabberType.GetMethod(nameof(PhysGrabber.ColorStates), BindingFlags.Instance | BindingFlags.NonPublic);
             if (colorStatesInfo != null) colorStatesInfo.Invoke(player.physGrabber, null);
         }
         catch (Exception e)
@@ -233,36 +210,26 @@ public class CustomGrabBeamColour : MonoBehaviour, IPunObservable
             Plugin.LogErrorIfDebug("Error while calling method 'ColorStates', this is probably harmless.\n" + e);
         }
     }
-
-    // gets the body colour of the player this beam belongs to, will return the fallback colour if no body colour is found
-    public Color GetBodyColour(Color fallbackColour)
+    
+    private static Color GetGrabberCosmeticMaterial(PlayerCosmetics cosmetics, Color fallback)
     {
-        Color bodyColour = BodyMaterial.GetColor(Shader.PropertyToID("_AlbedoColor"));
-        if (bodyColour == null)
+        int colourId = cosmetics.colorsEquipped[(int) SemiFunc.CosmeticType.GrabberMesh];
+        if (colourId < 0 || colourId >= MetaManager.instance.colors.Count)
         {
-            return fallbackColour;
+            Plugin.LogWarning($"[CustomGrabBeamColour] colourId {colourId} somehow out of range 0..{MetaManager.instance.colors.Count - 1}");
+            return fallback;
         }
-        return bodyColour;
+        return MetaManager.instance.colors[colourId].color;
     }
 
-    public static Color GetLocalBodyColour(Color fallbackColour)
+    // gets the body colour of the player this beam belongs to, will return the fallback colour if no body colour is found
+    public Color GetGrabberCosmeticColour(Color fallbackColour)
     {
-        Color bodyColour;
-        try
-        {
-            FieldInfo grabBeamActiveField = PlayerAvatar.instance.playerHealth.GetType().GetField("bodyMaterial", BindingFlags.Instance | BindingFlags.NonPublic);
-            Material bodyMat = (Material)grabBeamActiveField.GetValue(PlayerAvatar.instance.playerHealth);
-            bodyColour = bodyMat.GetColor(Shader.PropertyToID("_AlbedoColor"));
-        }
-        catch (Exception)
-        {
-            Plugin.LogMessageIfDebug("Failed to get value of PlayerHealth bodyMaterial field in GetLocalBodyColour");
-            return fallbackColour;
-        }
-        if (bodyColour == null)
-        {
-            return fallbackColour;
-        }
-        return bodyColour;
+        return GetGrabberCosmeticMaterial(player.playerCosmetics, fallbackColour);
+    }
+
+    public static Color GetLocalGrabberCosmeticColour(Color fallbackColour)
+    {
+        return GetGrabberCosmeticMaterial(PlayerAvatar.instance.playerCosmetics, fallbackColour);
     }
 }
