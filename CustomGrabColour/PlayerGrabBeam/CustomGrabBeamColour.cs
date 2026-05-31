@@ -150,7 +150,7 @@ public class  CustomGrabBeamColour : MonoBehaviour, IPunObservable
 
     public static void UpdateBeamColour(GrabBeamColourSettings newColour)
     {
-        newColour.a = Mathf.Clamp(newColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
+        newColour.a = CustomGrabColourConfig.ClampOpacity(newColour.a);
         LocalBeamColour = newColour;
         UpdateBeamColour(newColour.CurrentBeamType);
     }
@@ -181,7 +181,7 @@ public class  CustomGrabBeamColour : MonoBehaviour, IPunObservable
         GrabBeamColourSettings newBeamColour = FromRPCBuffer(beamColourParts);
         Plugin.LogMessageIfDebug("SetBeamColourRPC called with values: r:" + newBeamColour.r + ", g:" + newBeamColour.g + ", b:" + newBeamColour.b + ", a:" + newBeamColour.a + ", matchSkin:" + newBeamColour.MatchSkin + ", beamType:" + newBeamColour.CurrentBeamType);
 
-        newBeamColour.a = Mathf.Clamp(newBeamColour.a, 0f, CustomGrabColourConfig.MaxOpacity);
+        newBeamColour.a = CustomGrabColourConfig.ClampOpacity(newBeamColour.a);
 
         CurrentBeamColour = newBeamColour;
 

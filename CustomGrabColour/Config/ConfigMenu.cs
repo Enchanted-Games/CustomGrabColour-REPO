@@ -119,7 +119,6 @@ internal static class ConfigMenu
                     _neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalNeutralColour.r,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(1))
             );
@@ -139,7 +138,6 @@ internal static class ConfigMenu
                     _neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalNeutralColour.g,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(2))
             );
@@ -159,7 +157,6 @@ internal static class ConfigMenu
                     _neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalNeutralColour.b,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(3))
             );
@@ -167,7 +164,7 @@ internal static class ConfigMenu
         });
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
-            var opacitySlider = CreateColourSlider(
+            var opacitySlider = CreateAlphaSlider(
                 "Opacity",
                 "",
                 f =>
@@ -178,7 +175,6 @@ internal static class ConfigMenu
                     _neutralGrabColourPreviewImage.color = col;
                 },
                 CustomGrabBeamColour.LocalNeutralColour.a,
-                CustomGrabColourConfig.MaxOpacity,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(4))
             );
@@ -224,7 +220,6 @@ internal static class ConfigMenu
                     HandleRotatingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalRotatingColour.r,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(7))
             );
@@ -245,7 +240,6 @@ internal static class ConfigMenu
                     HandleRotatingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalRotatingColour.g,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(8))
             );
@@ -266,7 +260,6 @@ internal static class ConfigMenu
                     HandleRotatingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalRotatingColour.b,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(9))
             );
@@ -274,7 +267,7 @@ internal static class ConfigMenu
         });
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
-            var opacitySlider = CreateColourSlider(
+            var opacitySlider = CreateAlphaSlider(
                 "Opacity",
                 "",
                 f =>
@@ -286,7 +279,6 @@ internal static class ConfigMenu
                     HandleRotatingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalRotatingColour.a,
-                CustomGrabColourConfig.MaxOpacity,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(10))
             );
@@ -332,7 +324,6 @@ internal static class ConfigMenu
                     HandleHealingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalHealingColour.r,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(7))
             );
@@ -353,7 +344,6 @@ internal static class ConfigMenu
                     HandleHealingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalHealingColour.g,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(8))
             );
@@ -374,7 +364,6 @@ internal static class ConfigMenu
                     HandleHealingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalHealingColour.b,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(9))
             );
@@ -382,7 +371,7 @@ internal static class ConfigMenu
         });
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
-            var opacitySlider = CreateColourSlider(
+            var opacitySlider = CreateAlphaSlider(
                 "Opacity",
                 "",
                 f =>
@@ -394,7 +383,6 @@ internal static class ConfigMenu
                     HandleHealingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalHealingColour.a,
-                CustomGrabColourConfig.MaxOpacity,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(10))
             );
@@ -441,7 +429,6 @@ internal static class ConfigMenu
                     HandleClimbingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalClimbingColour.r,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(7))
             );
@@ -462,7 +449,6 @@ internal static class ConfigMenu
                     HandleClimbingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalClimbingColour.g,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(8))
             );
@@ -483,7 +469,6 @@ internal static class ConfigMenu
                     HandleClimbingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalClimbingColour.b,
-                1,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(9))
             );
@@ -491,7 +476,7 @@ internal static class ConfigMenu
         });
         changeGrabColourPage.AddElementToScrollView(parent =>
         {
-            var opacitySlider = CreateColourSlider(
+            var opacitySlider = CreateAlphaSlider(
                 "Opacity",
                 "",
                 f =>
@@ -503,7 +488,6 @@ internal static class ConfigMenu
                     HandleClimbingSkinMatchChange();
                 },
                 CustomGrabBeamColour.LocalClimbingColour.a,
-                CustomGrabColourConfig.MaxOpacity,
                 parent,
                 new Vector2(0, GetVerticalOffsetForScrollChildren(10))
             );
@@ -619,7 +603,7 @@ internal static class ConfigMenu
         colourPreviewImage.gameObject.transform.localScale = new Vector3(0.85f, 0.85f, 1f);
     }
 
-    private static REPOSlider CreateColourSlider(string name, string desc, Action<float> onChange, float initial, float max, Transform parent, Vector2 localPosition)
+    private static REPOSlider CreateColourSlider(string name, string desc, Action<float> onChange, float initial, Transform parent, Vector2 localPosition)
     {
         return MenuAPI.CreateREPOSlider(
             name,
@@ -628,6 +612,36 @@ internal static class ConfigMenu
             parent,
             localPosition,
             0,
+            1,
+            2,
+            initial
+        );
+    }
+    
+    private static REPOSlider CreateAlphaSlider(string name, string desc, Action<float> onChange, float initial, Transform parent, Vector2 localPosition)
+    {
+        return MenuAPI.CreateREPOSlider(
+            name,
+            desc,
+            onChange,
+            parent,
+            localPosition,
+            CustomGrabColourConfig.MinOpacity,
+            CustomGrabColourConfig.MaxOpacity,
+            2,
+            initial
+        );
+    }
+    
+    private static REPOSlider CreateSlider(string name, string desc, Action<float> onChange, float initial, float min, float max, Transform parent, Vector2 localPosition)
+    {
+        return MenuAPI.CreateREPOSlider(
+            name,
+            desc,
+            onChange,
+            parent,
+            localPosition,
+            min,
             max,
             2,
             initial
