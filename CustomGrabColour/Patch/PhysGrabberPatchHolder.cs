@@ -28,7 +28,7 @@ internal abstract class PhysGrabberPatchHolder
             int currentColourState = PrevColorStateRef(__instance);
 
             CustomGrabBeamColour grabBeamColour = GetCurrentGrabBeamColour(__instance);
-            if (!grabBeamColour)
+            if (grabBeamColour == null)
             {
                 Plugin.LogMessageIfDebug("Player has no custom beam colour");
                 ResetRotateBeamGridsColour(__instance);

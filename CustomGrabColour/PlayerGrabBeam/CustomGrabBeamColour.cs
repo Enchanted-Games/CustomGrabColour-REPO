@@ -15,10 +15,10 @@ public class  CustomGrabBeamColour : MonoBehaviour, IPunObservable
     internal static GrabBeamColourSettings LocalRotatingColour;
     internal static GrabBeamColourSettings LocalClimbingColour;
     
-    internal GrabBeamColourSettings CurrentNeutralColour;
-    internal GrabBeamColourSettings CurrentHealingColour;
-    internal GrabBeamColourSettings CurrentRotatingColour;
-    internal GrabBeamColourSettings CurrentClimbingColour;
+    internal GrabBeamColourSettings CurrentNeutralColour = new(CustomGrabColourConfig.NeutralDefaultColour, false, BeamType.Neutral);
+    internal GrabBeamColourSettings CurrentHealingColour = new(CustomGrabColourConfig.HealingDefaultColour, false, BeamType.Heal);
+    internal GrabBeamColourSettings CurrentRotatingColour = new(CustomGrabColourConfig.RotatingDefaultColour, false, BeamType.Rotate);
+    internal GrabBeamColourSettings CurrentClimbingColour = new(CustomGrabColourConfig.ClimbingDefaultColour, false, BeamType.Climb);
     internal bool SentInitialColourUpdate = false;
 
     public PlayerAvatar player;
@@ -102,11 +102,11 @@ public class  CustomGrabBeamColour : MonoBehaviour, IPunObservable
     {
         switch (beamType)
         {
-            case BeamType.Heal:
-            {
-                return CurrentNeutralColour;
-            }
             case BeamType.Rotate:
+            {
+                return CurrentRotatingColour;
+            }
+            case BeamType.Heal:
             {
                 return CurrentHealingColour;
             }
@@ -116,7 +116,7 @@ public class  CustomGrabBeamColour : MonoBehaviour, IPunObservable
             }
             default:
             {
-                return CurrentRotatingColour;
+                return CurrentNeutralColour;
             }
         }
     }
